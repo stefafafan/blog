@@ -13,7 +13,7 @@ export type Link = {
 }
 
 export const SITE: Site = {
-  TITLE: 'stefafafanのテックブログ2',
+  TITLE: '/^fa{3}$/',
   DESCRIPTION:
     'すてにゃん (stefafafan) によるテックブログです。',
   NUM_POSTS_ON_HOMEPAGE: 5,
