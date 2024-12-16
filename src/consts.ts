@@ -1,7 +1,6 @@
 export type Site = {
   TITLE: string
   DESCRIPTION: string
-  EMAIL: string
   NUM_POSTS_ON_HOMEPAGE: number
   POSTS_PER_PAGE: number
   SITEURL: string
@@ -13,13 +12,12 @@ export type Link = {
 }
 
 export const SITE: Site = {
-  TITLE: 'astro-erudite',
+  TITLE: 'stefafafanのテックブログ2',
   DESCRIPTION:
-    'astro-erudite is a opinionated, no-frills blogging template—built with Astro, Tailwind, and shadcn/ui.',
-  EMAIL: 'jason@enscribe.dev',
-  NUM_POSTS_ON_HOMEPAGE: 2,
+    'すてにゃん (stefafafan) によるテックブログです。',
+  NUM_POSTS_ON_HOMEPAGE: 5,
   POSTS_PER_PAGE: 3,
-  SITEURL: 'https://astro-erudite.vercel.app',
+  SITEURL: 'https://stenyan.dev',
 }
 
 export const NAV_LINKS: Link[] = [
@@ -29,8 +27,7 @@ export const NAV_LINKS: Link[] = [
 ]
 
 export const SOCIAL_LINKS: Link[] = [
-  { href: 'https://github.com/jktrn', label: 'GitHub' },
-  { href: 'https://twitter.com/enscry', label: 'Twitter' },
-  { href: 'jason@enscribe.dev', label: 'Email' },
+  { href: 'https://github.com/stefafafan', label: 'GitHub' },
+  { href: 'https://x.com/stefafafan', label: 'Twitter' },
   { href: '/rss.xml', label: 'RSS' },
 ]
