@@ -16,14 +16,6 @@ astro-erudite is an opinionated, no-frills static blogging template built with [
 
 ---
 
-## Community Examples
-
-Below are some fantastic examples of websites based on this template. If you wish to add your site to this list, open a pull request!
-
-| Site | Author | Description/Features | Source |
-|------|--------|----------------------|--------|
-| [enscribe.dev](https://enscribe.dev) | [@jktrn](https://github.com/jktrn) | Heavily modified bento-style homepage with client interactivity, with custom MDX components! | [→](https://github.com/jktrn/enscribe.dev) |
-
 ## Features
 
 - [Astro](https://astro.build/)&rsquo;s [Islands](https://docs.astro.build/en/concepts/islands/) architecture for partial/selective hydration and client-side interactivity while maintaining a fast-to-render static site.
@@ -33,7 +25,6 @@ Below are some fantastic examples of websites based on this template. If you wis
 - Astro [View Transitions](https://docs.astro.build/en/guides/view-transitions/) in <abbr title="Single Page Application">SPA</abbr> mode for smooth, opt-in animations during route switching.
 - SEO optimization with fine-grained control over metadata and [Open Graph](https://ogp.me/) tags for each post.
 - [RSS](https://en.wikipedia.org/wiki/RSS) feeds and sitemap generation!
-- Supports author profiles (with a dedicated authors page) and adding multiple authors per post.
 - Supports project tags (with a dedicated tags page) for easy post categorization and discovery.
 
 ## Technology Stack
@@ -101,7 +92,6 @@ export const SITE: Site = {
 
 export const NAV_LINKS: Link[] = [
   { href: '/blog', label: 'blog' },
-  { href: '/authors', label: 'authors' },
   { href: '/about', label: 'about' },
   { href: '/tags', label: 'tags' },
 ]
@@ -159,7 +149,6 @@ description: 'A brief description of your post!'
 date: 2024-01-01
 tags: ['tag1', 'tag2']
 image: './image.png'
-authors: ['author1', 'author2']
 draft: false
 ---
 ```
@@ -173,43 +162,7 @@ The blog post schema is defined as follows:
 | `date`        | `coerce.date()` | Must be in `YYYY-MM-DD` format.                                                                                                                                                   | Yes      |
 | `image`       | `image()`       | Must be exactly 1200px &times; 630px.                                                                                                                                             | Optional |
 | `tags`        | `string[]`      | Preferably use kebab-case for these.                                                                                                                                              | Optional |
-| `authors`     | `string[]`      | If the author has a profile, use the slug associated with their Markdown file in `src/content/authors/` (e.g. if their file is named `jane-doe.md`, use `jane-doe` in the array). | Optional |
 | `draft`       | `boolean`       | Defaults to `false` if not provided.                                                                                                                                              | Optional |
-
-### Authors
-
-Add author information in `src/content/authors/` as Markdown files. A file named `[author-name].md` can be associated with a blog post if `"author-name"` (the slug) is added to the `authors` field:
-
-```yml
----
-name: 'enscribe'
-pronouns: 'he/him'
-avatar: 'https://gravatar.com/avatar/9bfdc4ec972793cf05cb91efce5f4aaaec2a0da1bf4ec34dad0913f1d845faf6.webp?size=256'
-bio: 'd(-_-)b'
-website: 'https://enscribe.dev'
-twitter: 'https://twitter.com/enscry'
-github: 'https://github.com/jktrn'
-mail: 'jason@enscribe.dev'
----
-```
-
-The author schema is defined as follows:
-
-| Field      | Type (Zod)       | Requirements                                                                                                                        | Required |
-| ---------- | ---------------- | ----------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| `name`     | `string`         | n/a                                                                                                                                 | Yes      |
-| `pronouns` | `string`         | n/a                                                                                                                                 | Optional |
-| `avatar`   | `string.url()`   | Must be a valid URL. Preferably use [Gravatar](https://en.gravatar.com/site/implement/images/) with the `?size=256` size parameter. | Yes      |
-| `bio`      | `string`         | n/a                                                                                                                                 | Optional |
-| `mail`     | `string.email()` | Must be a valid email address.                                                                                                      | Optional |
-| `website`  | `string.url()`   | Must be a valid URL.                                                                                                                | Optional |
-| `twitter`  | `string.url()`   | Must be a valid URL.                                                                                                                | Optional |
-| `github`   | `string.url()`   | Must be a valid URL.                                                                                                                | Optional |
-| `linkedin` | `string.url()`   | Must be a valid URL.                                                                                                                | Optional |
-| `discord`  | `string.url()`   | Must be a valid URL.                                                                                                                | Optional |
-
-> [!TIP]
-> You can add as many social media links as you want, as long as you adjust the schema! Make sure you also support the new field in the `src/components/SocialIcons.astro` component.
 
 ### Projects
 
