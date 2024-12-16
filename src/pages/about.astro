@@ -1,6 +1,7 @@
 ---
 import Breadcrumbs from '@/components/Breadcrumbs.astro'
 import Container from '@/components/Container.astro'
+import Link from '@/components/Link.astro'
 import { SITE } from '@/consts'
 import Layout from '@/layouts/Layout.astro'
 ---
@@ -11,10 +12,25 @@ import Layout from '@/layouts/Layout.astro'
 
     <section>
       <div class="min-w-full">
-        <h1 class="mb-4 text-3xl font-bold">Some more about us</h1>
+        <h1 class="mb-4 text-3xl font-bold">{SITE.TITLE} とは</h1>
         <p class="prose prose-neutral mb-8 dark:prose-invert">
-          {SITE.TITLE} is an opinionated, no-frills static blogging template built
-          with Astro.
+          {SITE.TITLE} は <Link href="https://x.com/stefafafan"
+            >@stefafafan</Link
+          > が運営するブログです。Web系のソフトウェアエンジニアとして技術系のエントリをはじめ、日常系の内容も投稿していく予定です。主にWebのバックエンドやインフラ寄りの話題に関心がありますが、それに限らず幅広く書いていく予定です。
+        </p>
+        <p class="prose prose-neutral mb-8 dark:prose-invert">
+          このブログは <Link href="https://astro.build/">Astro</Link> と <Link
+            href="https://github.com/jktrn/astro-erudite">astro-erudite</Link
+          > テーマを元に作られています。<Link href="https://vercel.com/"
+            >Vercel</Link
+          >にてホスティングされています。リポジトリはGitHubの <Link
+            href="https://github.com/stefafafan/blog">stefafafan/blog</Link
+          > にて公開されているため、何かありましたら Issue や Pull Request をお気軽にどうぞ。
+        </p>
+        <p class="prose prose-neutral mb-8 dark:prose-invert">
+          前身のブログは <Link href="https://blog.stenyan.jp/"
+            >stefafafan の fa は3つです</Link
+          > (はてなブログ) です。
         </p>
       </div>
     </section>
