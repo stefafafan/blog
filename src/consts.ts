@@ -16,7 +16,7 @@ export const SITE: Site = {
   DESCRIPTION:
     'すてにゃん (stefafafan) によるテックブログです。',
   NUM_POSTS_ON_HOMEPAGE: 5,
-  POSTS_PER_PAGE: 3,
+  POSTS_PER_PAGE: 5,
   SITEURL: 'https://stenyan.dev',
 }
 
