@@ -164,30 +164,6 @@ The blog post schema is defined as follows:
 | `tags`        | `string[]`      | Preferably use kebab-case for these.                                                                                                                                              | Optional |
 | `draft`       | `boolean`       | Defaults to `false` if not provided.                                                                                                                                              | Optional |
 
-### Projects
-
-Add projects in `src/content/projects/` as Markdown files:
-
-```yml
----
-name: 'Project A'
-description: 'This is an example project description! You should replace this with a description of your own project.'
-tags: ['Framework A', 'Library B', 'Tool C', 'Resource D']
-image: '/static/1200x630.png'
-link: 'https://example.com'
----
-```
-
-The project schema is defined as follows:
-
-| Field         | Type (Zod)     | Requirements                          | Required |
-| ------------- | -------------- | ------------------------------------- | -------- |
-| `name`        | `string`       | n/a                                   | Yes      |
-| `description` | `string`       | n/a                                   | Yes      |
-| `tags`        | `string[]`     | n/a                                   | Yes      |
-| `image`       | `image()`      | Must be exactly 1200px &times; 630px. | Yes      |
-| `link`        | `string.url()` | Must be a valid URL.                  | Yes      |
-
 ## License
 
 This project is open source and available under the [MIT License](LICENSE).
