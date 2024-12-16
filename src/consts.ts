@@ -4,6 +4,7 @@ export type Site = {
   NUM_POSTS_ON_HOMEPAGE: number
   POSTS_PER_PAGE: number
   SITEURL: string
+  HATENA_ID: string
 }
 
 export type Link = {
@@ -18,6 +19,7 @@ export const SITE: Site = {
   NUM_POSTS_ON_HOMEPAGE: 5,
   POSTS_PER_PAGE: 5,
   SITEURL: 'https://stenyan.dev',
+  HATENA_ID: 'stefafafan',
 }
 
 export const NAV_LINKS: Link[] = [

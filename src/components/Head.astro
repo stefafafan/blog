@@ -48,6 +48,8 @@ const { title, description, image = '/static/twitter-card.png' } = Astro.props
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={new URL(image, Astro.url)} />
 
+<link rel="author" href=`https://www.hatena.ne.jp/${SITE.HATENA_ID}/` />
+
 <ViewTransitions />
 
 <script is:inline>
