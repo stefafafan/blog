@@ -28,7 +28,7 @@
     "@radix-ui/react-separator": "1.1.1",
     "@radix-ui/react-slot": "1.1.1",
     "@rehype-pretty/transformers": "0.13.2",
-    "@shikijs/transformers": "1.24.2",
+    "@shikijs/transformers": "1.24.3",
     "@types/react": "18.3.17",
     "@types/react-dom": "18.3.5",
     "astro": "4.16.18",
