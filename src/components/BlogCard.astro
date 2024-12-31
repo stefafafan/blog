@@ -15,7 +15,7 @@ const { entry } = Astro.props as {
 }
 
 const formattedDate = formatDate(entry.data.date)
-const readTime = readingTime(entry.body)
+const readTime = readingTime(entry.body ?? '')
 ---
 
 <div
