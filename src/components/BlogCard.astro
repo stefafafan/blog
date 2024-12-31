@@ -4,7 +4,7 @@ import { Separator } from '@/components/ui/separator'
 import { formatDate, readingTime } from '@/lib/utils'
 import { Image } from 'astro:assets'
 import type { CollectionEntry } from 'astro:content'
-import Link from './Link.astro'
+import LinkWithFullPageReload from './LinkWithFullPageReload.astro'
 
 type Props = {
   entry: CollectionEntry<'posts'>
@@ -21,7 +21,7 @@ const readTime = readingTime(entry.body ?? '')
 <div
   class="not-prose rounded-xl border p-4 transition-colors duration-300 ease-in-out hover:bg-secondary/50"
 >
-  <Link
+  <LinkWithFullPageReload
     href={`/${entry.collection}/${entry.id}`}
     class="flex flex-col gap-4 sm:flex-row"
   >
@@ -62,5 +62,5 @@ const readTime = readingTime(entry.body ?? '')
         )
       }
     </div>
-  </Link>
+  </LinkWithFullPageReload>
 </div>
