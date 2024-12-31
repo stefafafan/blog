@@ -8,7 +8,7 @@ import Layout from '@/layouts/Layout.astro'
 import { formatDate, readingTime } from '@/lib/utils'
 import { Icon } from 'astro-icon/components'
 import { Image } from 'astro:assets'
-import { type CollectionEntry, getCollection, render } from 'astro:content'
+import { getCollection, render } from 'astro:content'
 
 export async function getStaticPaths() {
   const posts = (await getCollection('posts'))
@@ -19,32 +19,6 @@ export async function getStaticPaths() {
     props: post,
   }))
 }
-type Props = CollectionEntry<'posts'>
-
-const posts = (await getCollection('posts'))
-  .filter((post) => !post.data.draft)
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-
-function getPostIndex(id: string): number {
-  return posts.findIndex((post) => post.id === id)
-}
-
-function getPrevPost(id: string): Props | null {
-  const postIndex = getPostIndex(id)
-  return postIndex !== -1 && postIndex < posts.length - 1
-    ? posts[postIndex + 1]
-    : null
-}
-
-function getNextPost(id: string): Props | null {
-  const postIndex = getPostIndex(id)
-  return postIndex > 0 ? posts[postIndex - 1] : null
-}
-
-const currentPostId = Astro.params.id
-const nextPost = getNextPost(currentPostId)
-const prevPost = getPrevPost(currentPostId)
-
 const post = Astro.props
 const { Content, headings } = await render(post)
 ---
@@ -77,7 +51,7 @@ const { Content, headings } = await render(post)
     }
     <section class="col-start-2 flex flex-col gap-y-6 text-center">
       <div class="flex flex-col gap-y-4">
-        <h1 class="text-4xl font-bold leading-tight sm:text-5xl">
+        <h1 class="text-3xl font-bold leading-tight sm:text-4xl">
           {post.data.title}
         </h1>
 
