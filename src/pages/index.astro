@@ -3,7 +3,6 @@ import BlogCard from '@/components/BlogCard.astro'
 import Container from '@/components/Container.astro'
 import Link from '@/components/Link.astro'
 import { buttonVariants } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { SITE } from '@/consts'
 import Layout from '@/layouts/Layout.astro'
 import { getCollection } from 'astro:content'
@@ -16,21 +15,6 @@ const posts = (await getCollection('posts'))
 
 <Layout title="Home" description={SITE.DESCRIPTION}>
   <Container class="flex flex-col gap-y-6">
-    <section>
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-3xl">やあ （´・ω・｀)</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p class="mb-2 text-sm text-muted-foreground">
-            ようこそ、{SITE.TITLE}へ。
-          </p>
-          <p class="text-sm text-muted-foreground">
-            このサイトはサービスだから、まず読んで落ち着いて欲しい。
-          </p>
-        </CardContent>
-      </Card>
-    </section>
     <section class="flex flex-col gap-y-4">
       <h2 class="text-2xl font-bold">最新の記事</h2>
       {
