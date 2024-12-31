@@ -1,7 +1,8 @@
+import { glob } from 'astro/loaders'
 import { defineCollection, z } from 'astro:content'
 
 const posts = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.{md,mdx}', base: "./src/content/posts" }),
   schema: ({ image }) =>
     z.object({
       title: z
@@ -17,12 +18,7 @@ const posts = defineCollection({
           'Description should be 155 characters or less for optimal Open Graph display.',
         ),
       date: z.coerce.date(),
-      image: image()
-        .refine((img) => img.width === 1200 && img.height === 630, {
-          message:
-            'The image must be exactly 1200px × 630px for Open Graph requirements.',
-        })
-        .optional(),
+      image: image().optional(),
       tags: z.array(z.string()).optional(),
       draft: z.boolean().optional(),
     }),
