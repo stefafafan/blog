@@ -1,6 +1,5 @@
 ---
 import Breadcrumbs from '@/components/Breadcrumbs.astro'
-import PostNavigation from '@/components/PostNavigation.astro'
 import TableOfContents from '@/components/TableOfContents.astro'
 import { badgeVariants } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -111,8 +110,6 @@ const { Content, headings } = await render(post)
           }
         </div>
       </div>
-
-      <PostNavigation prevPost={prevPost} nextPost={nextPost} />
     </section>
 
     {headings.length > 0 && <TableOfContents headings={headings} />}
@@ -122,8 +119,6 @@ const { Content, headings } = await render(post)
     >
       <Content />
     </article>
-
-    <PostNavigation prevPost={prevPost} nextPost={nextPost} />
   </section>
 
   <Button
