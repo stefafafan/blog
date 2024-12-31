@@ -72,4 +72,5 @@ export default defineConfig({
   devToolbar: {
     enabled: false,
   },
+  trailingSlash: "never"
 })
