@@ -3,12 +3,11 @@ import BlogCard from '@/components/BlogCard.astro'
 import Container from '@/components/Container.astro'
 import Link from '@/components/Link.astro'
 import { buttonVariants } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { SITE } from '@/consts'
 import Layout from '@/layouts/Layout.astro'
 import { getCollection } from 'astro:content'
 
-const blog = (await getCollection('blog'))
+const posts = (await getCollection('posts'))
   .filter((post) => !post.data.draft)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, SITE.NUM_POSTS_ON_HOMEPAGE)
@@ -16,33 +15,18 @@ const blog = (await getCollection('blog'))
 
 <Layout title="Home" description={SITE.DESCRIPTION}>
   <Container class="flex flex-col gap-y-6">
-    <section>
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-3xl">やあ （´・ω・｀)</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p class="mb-2 text-sm text-muted-foreground">
-            ようこそ、{SITE.TITLE}へ。
-          </p>
-          <p class="text-sm text-muted-foreground">
-            このサイトはサービスだから、まず読んで落ち着いて欲しい。
-          </p>
-        </CardContent>
-      </Card>
-    </section>
     <section class="flex flex-col gap-y-4">
       <h2 class="text-2xl font-bold">最新の記事</h2>
       {
-        blog.length === 0 && (
+        posts.length === 0 && (
           <p class="text-muted-foreground">記事がありません。</p>
         )
       }
       {
-        blog.length > 0 && (
+        posts.length > 0 && (
           <>
             <ul class="not-prose flex flex-col gap-y-4">
-              {blog.map((post) => (
+              {posts.map((post) => (
                 <li>
                   <BlogCard entry={post} />
                 </li>
@@ -50,7 +34,7 @@ const blog = (await getCollection('blog'))
             </ul>
             <div class="flex justify-center">
               <Link
-                href="/blog"
+                href="/posts"
                 class={buttonVariants({ variant: 'ghost' }) + ' group'}
               >
                 記事一覧へ{' '}

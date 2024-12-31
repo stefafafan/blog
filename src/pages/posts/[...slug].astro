@@ -12,7 +12,7 @@ import { Image } from 'astro:assets'
 import { type CollectionEntry, getCollection } from 'astro:content'
 
 export async function getStaticPaths() {
-  const posts = (await getCollection('blog'))
+  const posts = (await getCollection('posts'))
     .filter((post) => !post.data.draft)
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   return posts.map((post) => ({
@@ -20,9 +20,9 @@ export async function getStaticPaths() {
     props: post,
   }))
 }
-type Props = CollectionEntry<'blog'>
+type Props = CollectionEntry<'posts'>
 
-const posts = (await getCollection('blog'))
+const posts = (await getCollection('posts'))
   .filter((post) => !post.data.draft)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
 
@@ -53,14 +53,14 @@ const { Content, headings } = await post.render()
 <Layout
   title={post.data.title}
   description={post.data.description}
-  image={post.data.image?.src ?? '/static/1200x630.png'}
+  image={post.data.image?.src}
 >
   <section
     class="grid grid-cols-[minmax(0px,1fr)_min(768px,100%)_minmax(0px,1fr)] gap-y-6 *:px-4"
   >
     <Breadcrumbs
       items={[
-        { href: '/blog', label: 'Blog', icon: 'lucide:archive' },
+        { href: '/posts', label: 'Posts', icon: 'lucide:archive' },
         { label: post.data.title, icon: 'lucide:file-text' },
       ]}
       class="col-start-2"
