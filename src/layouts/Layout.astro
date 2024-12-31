@@ -21,6 +21,19 @@ const { title, description, image } = Astro.props
       description={description}
       image={image}
     />
+    <script type="text/javascript" src="https://s.hatena.ne.jp/js/HatenaStar.js"
+    ></script>
+    <script type="text/javascript">
+      Hatena.Star.SiteConfig = {
+        entryNodes: {
+          '.post-container': {
+            uri: 'h1 a',
+            title: 'h1',
+            container: '.content-container',
+          },
+        },
+      }
+    </script>
   </head>
   <body>
     <div
