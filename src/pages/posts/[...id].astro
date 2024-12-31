@@ -89,13 +89,22 @@ const { Content, headings } = await render(post)
 
     {headings.length > 0 && <TableOfContents headings={headings} />}
 
-    <div class="content-container">
-      <article
-        class="prose prose-neutral col-start-2 max-w-none dark:prose-invert"
-      >
-        <Content />
-      </article>
-    </div>
+    <article
+      class="prose prose-neutral col-start-2 max-w-none dark:prose-invert"
+    >
+      <Content />
+      <div class="hatena-star"></div>
+      <div class="mt-4 flex gap-4">
+        <a
+          href="https://twitter.com/share"
+          class="twitter-share-button"
+          data-show-count="false">Tweet</a
+        ><script
+          async
+          src="https://platform.twitter.com/widgets.js"
+          charset="utf-8"></script>
+      </div>
+    </article>
   </section>
 
   <Button
