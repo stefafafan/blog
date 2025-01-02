@@ -25,8 +25,14 @@ import icon from "astro-icon";
 const hatenaBlogTransformer = {
 	name: "hatenablog",
 	shouldTransform(url) {
-		// TODO: Support other hatenablog domains
-		return /^https?:\/\/[^/]*\.?hatenablog\.com\//.test(url);
+		// URL should match one of the following:
+		// TODO: Decide how to handle owned domains.
+		// - *.hatenablog.com
+		// - *.hatenablog.jp
+		// - *.hateblo.jp
+		// - *.hatenadiary.com
+		// - *.hatenadiary.jp
+		return /https?:\/\/.*\.hatenablog\.(com|jp)|https?:\/\/.*\.hateblo\.jp|https?:\/\/.*\.hatenadiary\.(com|jp)/.test(url);
 	},
 
 	async getHTML(url) {
