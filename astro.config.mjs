@@ -21,7 +21,7 @@ import sectionize from "@hbsnow/rehype-sectionize";
 
 import icon from "astro-icon";
 
-const HatenaBlogTransformer = {
+const hatenaBlogTransformer = {
 	name: "hatenablog",
 	shouldTransform(url) {
 		// TODO: Support other hatenablog domains
@@ -96,7 +96,7 @@ export default defineConfig({
 			remarkMath,
 			remarkEmoji,
 			// Using workaround as mentioned here: https://github.com/shikijs/twoslash/issues/147
-			[remarkEmbedder.default, { transformers: [oembedTransformer.default, HatenaBlogTransformer] }],
+			[remarkEmbedder.default, { transformers: [oembedTransformer.default, hatenaBlogTransformer] }],
 		],
 	},
 	server: {
