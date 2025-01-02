@@ -17,6 +17,7 @@ import remarkMath from "remark-math";
 import remarkToc from "remark-toc";
 import remarkEmbedder from "@remark-embedder/core";
 import oembedTransformer from "@remark-embedder/transformer-oembed";
+import Cache from '@remark-embedder/cache'
 import sectionize from "@hbsnow/rehype-sectionize";
 
 import icon from "astro-icon";
@@ -47,6 +48,8 @@ const hatenaBlogTransformer = {
 		return oembedJson.html;
 	}
 };
+
+const cache = new Cache.default();
 
 // https://astro.build/config
 export default defineConfig({
@@ -96,7 +99,7 @@ export default defineConfig({
 			remarkMath,
 			remarkEmoji,
 			// Using workaround as mentioned here: https://github.com/shikijs/twoslash/issues/147
-			[remarkEmbedder.default, { transformers: [oembedTransformer.default, hatenaBlogTransformer] }],
+			[remarkEmbedder.default, { cache, transformers: [oembedTransformer.default, hatenaBlogTransformer] }],
 		],
 	},
 	server: {
