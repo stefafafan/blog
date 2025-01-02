@@ -21,6 +21,33 @@ import sectionize from "@hbsnow/rehype-sectionize";
 
 import icon from "astro-icon";
 
+const HatenaBlogTransformer = {
+	name: "hatenablog",
+	shouldTransform(url) {
+		// TODO: Support other hatenablog domains
+		return /^https?:\/\/[^/]*\.?hatenablog\.com\//.test(url);
+	},
+
+	async getHTML(url) {
+		const res = await fetch(url);
+		if (!res.ok) return null;
+
+		const html = await res.text();
+		if (!html.includes('data-parts-domain="https://hatenablog-parts.com"')) {
+			return null;
+		}
+
+		const oembedUrl = `https://hatenablog.com/oembed?url=${encodeURIComponent(url)}`;
+		const oembedRes = await fetch(oembedUrl);
+		if (!oembedRes.ok) return null;
+
+		const oembedJson = await oembedRes.json();
+		if (!oembedJson.html) return null;
+
+		return oembedJson.html;
+	}
+};
+
 // https://astro.build/config
 export default defineConfig({
 	site: "https://stenyan.dev",
@@ -69,7 +96,7 @@ export default defineConfig({
 			remarkMath,
 			remarkEmoji,
 			// Using workaround as mentioned here: https://github.com/shikijs/twoslash/issues/147
-			[remarkEmbedder.default, { transformers: [oembedTransformer.default] }],
+			[remarkEmbedder.default, { transformers: [oembedTransformer.default, HatenaBlogTransformer] }],
 		],
 	},
 	server: {
