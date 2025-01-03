@@ -1,0 +1,70 @@
+---
+title: '新しいブログです'
+description: 'こんにちは'
+date: 2025-01-03
+tags: ['astro', 'shiki']
+draft: false
+---
+
+新しいブログです。
+
+```ts twoslash {1-3}
+interface IdLabel {
+  id: number /* some fields */
+}
+interface NameLabel {
+  name: string /* other fields */
+}
+type NameOrId<T extends number | string> = T extends number
+  ? IdLabel
+  : NameLabel
+// This comment should not be included
+
+// ---cut---
+function createLabel<T extends number | string>(idOrName: T): NameOrId<T> {
+  throw 'unimplemented'
+}
+
+let a = createLabel('typescript')
+```
+
+### Adding Values
+
+```twoslash include main
+const a = 1
+// - 1
+const b = 2
+// - 2
+const c= 3
+```
+
+Let's talk a bit about `a`:
+
+```ts twoslash
+// @include: main-1
+```
+
+`a` can be added to another number
+
+```ts twoslash
+// @include: main-1
+// ---cut---
+const nextA = a + 13
+```
+
+Look what happens when you add `a + b`
+
+```ts twoslash
+// @include: main-2
+// ---cut---
+const result = a + b
+//    ^?
+```
+
+Finally here is `c`:
+
+```ts twoslash
+// @include: main
+// ---cut---
+c.toString()
+```

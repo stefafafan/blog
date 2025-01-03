@@ -85,7 +85,7 @@ export default defineConfig({
           transformers: [oembedTransformer.default, hatenaBlogTransformer],
         },
       ],
-      [remarkShikiTwoslash.default, { theme: 'dark-plus' }],
+      [remarkShikiTwoslash.default, { theme: 'github-light' }],
     ],
   },
   server: {
