@@ -22,28 +22,22 @@ import sectionize from "@hbsnow/rehype-sectionize";
 
 import icon from "astro-icon";
 
+const hatenaBlogOwnedDomains = [
+	"blog.stenyan.jp",
+];
+
 const hatenaBlogTransformer = {
 	name: "hatenablog",
 	shouldTransform(url) {
-		// URL should match one of the following:
-		// TODO: Decide how to handle owned domains.
-		// - *.hatenablog.com
-		// - *.hatenablog.jp
-		// - *.hateblo.jp
-		// - *.hatenadiary.com
-		// - *.hatenadiary.jp
-		return /https?:\/\/.*\.hatenablog\.(com|jp)|https?:\/\/.*\.hateblo\.jp|https?:\/\/.*\.hatenadiary\.(com|jp)/.test(url);
+		const { host } = new URL(url)
+
+		const isHatenablogDomain = host.endsWith("hatenablog.com") || host.endsWith("hatenablog.jp") || host.endsWith("hateblo.jp") || host.endsWith("hatenadiary.com") || host.endsWith("hatenadiary.jp");
+		const isSpecificOwnedDomain = hatenaBlogOwnedDomains.some((domain) => host === domain);
+
+		return isHatenablogDomain || isSpecificOwnedDomain;
 	},
 
 	async getHTML(url) {
-		const res = await fetch(url);
-		if (!res.ok) return null;
-
-		const html = await res.text();
-		if (!html.includes('data-parts-domain="https://hatenablog-parts.com"')) {
-			return null;
-		}
-
 		const oembedUrl = `https://hatenablog.com/oembed?url=${encodeURIComponent(url)}`;
 		const oembedRes = await fetch(oembedUrl);
 		if (!oembedRes.ok) return null;
