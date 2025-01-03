@@ -10,6 +10,7 @@ import remarkToc from 'remark-toc'
 import remarkEmbedder from '@remark-embedder/core'
 import oembedTransformer from '@remark-embedder/transformer-oembed'
 import Cache from '@remark-embedder/cache'
+import remarkShikiTwoslash from 'remark-shiki-twoslash'
 import sectionize from '@hbsnow/rehype-sectionize'
 
 import icon from 'astro-icon'
@@ -84,6 +85,7 @@ export default defineConfig({
           transformers: [oembedTransformer.default, hatenaBlogTransformer],
         },
       ],
+      [remarkShikiTwoslash.default, { theme: 'dark-plus' }],
     ],
   },
   server: {
