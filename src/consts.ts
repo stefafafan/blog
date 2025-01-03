@@ -14,8 +14,7 @@ export type Link = {
 
 export const SITE: Site = {
   TITLE: '/^fa{3}$/',
-  DESCRIPTION:
-    'すてにゃん (stefafafan) によるテックブログです。',
+  DESCRIPTION: 'すてにゃん (stefafafan) によるテックブログです。',
   NUM_POSTS_ON_HOMEPAGE: 5,
   POSTS_PER_PAGE: 5,
   SITEURL: 'https://stenyan.dev',
