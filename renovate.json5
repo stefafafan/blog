@@ -4,6 +4,6 @@
     ':automergeMinor',
     ':enableVulnerabilityAlerts',
     'config:best-practices',
-    'schedule:automergeEarlyMondays',
+    'schedule:automergeDaily',
   ],
 }
