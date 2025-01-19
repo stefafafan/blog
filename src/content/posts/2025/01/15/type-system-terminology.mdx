@@ -30,13 +30,14 @@ TODO:
 
 [^1]: 後述のStructural Subtypingと差別化するために https://www.typescriptlang.org/docs/handbook/type-compatibility.html の例を少し改変しています。
 
-```typescript
+```typescript title="structural-typing.ts" showLineNumbers {9}
 class Dog {
   name = 'dog';
 }
 class Cat {
   name = 'cat';
 }
+
 let pet: Dog;
 // !! Dog 型の pet に Cat 型のインスタンスを代入してもエラーにならない!!
 pet = new Cat();
@@ -52,7 +53,7 @@ pet = new Cat();
 
 先ほどの TypeScript の例をRustで書いた場合、以下のようになります。
 
-```rust
+```rust title="nominal-typing.rs" showLineNumbers {11-14}
 struct Pet {
     name: String,
 }
@@ -74,21 +75,21 @@ fn main() {
 
 しかし、以下の例のようにプリミティブ型をそのまま利用する際は Rust のコンパイラは型エラーを出力しません。このようなケースにおいては後述する New Type Pattern などを利用して型安全性を確保することが推奨されています。
 
-```rust
+```rust title="primitive-parameter-type.rs" showLineNumbers {12-13}
 // マイル数をキロメートル数に変換する関数
 fn miles_to_kilometers(miles: f64) -> f64 {
     miles * 1.60934
 }
 
 fn main() {
-    let m = 10.0;
-    let k = miles_to_kilometers(m);
-    println!("{} miles is equal to {} kilometers", m, k);
+    let miles = 10.0;
+    let kilometers = miles_to_kilometers(miles);
+    println!("{} miles is equal to {} kilometers", miles, kilometers);
 
-    let k2: f64 = 20.0;
-    // !! miles 引数に対して kilometers の値を渡しても型エラーにならない!!
-    let m2: f64 = miles_to_kilometers(k2);
-    println!("{} miles is equal to {} kilometers", m2, k2);
+    let kilometers2: f64 = 20.0;
+    // !! miles 引数に対して kilometers2 の値を渡しても型エラーにならない!!
+    let miles2: f64 = miles_to_kilometers(kilometers2);
+    println!("{} miles is equal to {} kilometers", miles2, kilometers2);
 }
 ```
 
@@ -123,7 +124,7 @@ Subtyping には Structural Subtyping (構造的部分型) と Nominal Subtyping
 
 構造的部分型の例としては、以下の TypeScript のコードを見てみましょう。
 
-```typescript
+```typescript title="structural-subtyping.ts" showLineNumbers {20-21, 28-30}
 interface Animal {
     name: string;
     talk: () => void;
@@ -159,7 +160,7 @@ talk(cat);
 上記の例では、 `Animal` というインターフェイスを定義し、 `Dog` と `Cat` はそれぞれ `Animal` インターフェイスを実装しています。そのため、 `Dog` と `Cat` は `Animal` の部分型として扱われ、 `talk` 関数に引数として渡すことができます。
 TypeScriptによるコンパイルは問題なく通り、実行すると以下のような出力が得られます。
 
-```log
+```log title="output"
 I am a dog, bow wow.
 I am a cat, meow.
 ```
