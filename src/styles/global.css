@@ -126,7 +126,7 @@
 
       /* Code block styles */
       pre {
-        @apply static max-h-[600px] overflow-auto rounded-xl border bg-secondary/20 py-4 text-sm leading-loose;
+        @apply static overflow-auto rounded-xl border bg-secondary/20 py-4 text-sm leading-loose;
 
         /* Code block content */
         > code {
