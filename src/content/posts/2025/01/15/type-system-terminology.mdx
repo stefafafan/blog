@@ -9,6 +9,7 @@ draft: false
 こんにちは、 id:stefafafan です。最近私は仕事でTypeScriptを書いたり、趣味でRustの勉強をしています。その中で、様々な型システムに関する用語を目にしてきました。自分の中でそれらの用語の違いを整理するためにも、この記事を書いてみようと思います。
 
 ## この記事のゴール
+
 - 型に関する用語の関係性について私自身混乱しているため、記事としてまとめることで考えを整理すること
 - 私と同じように理解が曖昧な方に向けて整理の手助けをすること
 
@@ -16,11 +17,12 @@ draft: false
 
 プログラミング言語の型システムには Structural Typing (構造的型付け) と Nominal Typing (名前的型付け)の2つの型付けの方法があります。まずはこの2つの違いについて整理を試みます。
 
-{/*
+{/\*
 TODO:
+
 - TAPL本を参照する
 - それぞれの特徴・良し悪し
-*/}
+  \*/}
 
 ### Structural Typing (構造的型付け)
 
@@ -32,15 +34,15 @@ TODO:
 
 ```typescript title="structural-typing.ts" showLineNumbers {9}
 class Dog {
-  name = 'dog';
+  name = 'dog'
 }
 class Cat {
-  name = 'cat';
+  name = 'cat'
 }
 
-let pet: Dog;
+let pet: Dog
 // !! Dog 型の pet に Cat 型のインスタンスを代入してもエラーにならない!!
-pet = new Cat();
+pet = new Cat()
 ```
 
 この例では `Dog` という型で定義された `pet` 変数に対して、 `Cat` という型のインスタンスを代入しています。 `Dog` と `Cat` はそれぞれ異なるクラスですが、 `name` というプロパティを持っているという点で互換性があるため、TypeScriptにおいては型エラーにならずにコンパイルが通ります。
@@ -126,35 +128,35 @@ Subtyping には Structural Subtyping (構造的部分型) と Nominal Subtyping
 
 ```typescript title="structural-subtyping.ts" showLineNumbers {20-21, 28-30}
 interface Animal {
-    name: string;
-    talk: () => void;
+  name: string
+  talk: () => void
 }
 
 class Dog {
-    name = 'dog';
-    talk() {
-        console.log(`I am a ${this.name}, bow wow.`);
-    }
+  name = 'dog'
+  talk() {
+    console.log(`I am a ${this.name}, bow wow.`)
+  }
 }
 
 class Cat {
-    name = 'cat';
-    talk() {
-        console.log(`I am a ${this.name}, meow.`);
-    }
+  name = 'cat'
+  talk() {
+    console.log(`I am a ${this.name}, meow.`)
+  }
 }
 
 // talk は引数として Animal 型を受け取る
 function talk(animal: Animal) {
-    animal.talk();
+  animal.talk()
 }
 
-const dog = new Dog();
-const cat = new Cat();
+const dog = new Dog()
+const cat = new Cat()
 
 // Dog や Cat 型を渡しても問題ない!
-talk(dog);
-talk(cat);
+talk(dog)
+talk(cat)
 ```
 
 上記の例では、 `Animal` というインターフェイスを定義し、 `Dog` と `Cat` はそれぞれ `Animal` インターフェイスを実装しています。そのため、 `Dog` と `Cat` は `Animal` の部分型として扱われ、 `talk` 関数に引数として渡すことができます。
@@ -168,14 +170,17 @@ I am a cat, meow.
 ### Nominal Subtyping (公称的部分型)
 
 ## Variance（変性）とは
+
 - Covariant (共変)
 - Contravariant (反変)
 - Invariant (不変)
 
 ## Type Safety (型安全性) とは
+
 - TAPL本を参照する
 
 ## New Type Pattern
+
 - Haskell での例
 - Rust での例
 - TypeScript での例
@@ -183,14 +188,17 @@ I am a cat, meow.
   - zod, newtype-ts, type-fest, ...
 
 ## Phantom Types (幽霊型)
+
 - Rust での例
 - TypeScript での例
 
 ## Opaque Types
+
 - Rust での例
 - TypeScript での例
 
 ## まとめ
+
 - 概念の整理
   - Structural Typing, Nominal Typing
   - Subtyping, Variance
