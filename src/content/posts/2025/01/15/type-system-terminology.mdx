@@ -225,11 +225,22 @@ fn main() {
 
 構造としては同じであるにも関わらず、 `talk(&cat)` の呼び出し時にコンパイルエラーが発生します。 Rust は名前的部分型を採用しているため、 `Cat` は `Animal` の部分型としては扱われていません。
 
-## Variance（変性）とは
+### Variance（変性）
 
-- Covariant (共変)
-- Contravariant (反変)
-- Invariant (不変)
+Subtyping に関する概念として Variance（変性）があります。変性にはのような種類があります。
+
+- Covariance (共変性)
+- Contravariance (反変性)
+- Invariance (不変性)
+- Bivariance (双変性)
+
+#### Covariance (共変性)
+
+#### Contravariance (反変性)
+
+#### Invariance (不変性)
+
+#### Bivariance (双変性)
 
 ## Type Safety (型安全性) とは
 
@@ -289,8 +300,6 @@ https://medium.com/@KevinBGreene/surviving-the-typescript-ecosystem-branding-and
 
 https://michalzalecki.com/nominal-typing-in-typescript/#approach-4-intersection-types-and-brands
 
-TAPL本
-
 https://wiki.c2.com/?NominativeAndStructuralTyping
 
 https://bufferings.hatenablog.com/entry/2025/01/12/171721
@@ -318,3 +327,14 @@ https://text.baldanders.info/remark/2020/04/subtyping/
 https://en.wikipedia.org/wiki/Covariance_and_contravariance_(computer_science)
 
 https://spin.atomicobject.com/typescript-flexible-nominal-typing/
+
+https://sititou70.github.io/TypeScript%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E9%85%8D%E5%88%97%E3%81%AE%E5%85%B1%E5%A4%89%E6%80%A7/
+
+https://zenn.dev/jay_es/articles/2024-02-13-typescript-variance
+
+https://numb86-tech.hatenablog.com/entry/2020/07/04/095737
+
+https://tarao.hatenablog.com/entry/subtyping-polarity
+
+TAPL本
+プロを目指す人のためのTypeScript入門
