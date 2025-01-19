@@ -15,7 +15,7 @@ draft: false
 
 ## Structural Typing と Nominal Typing
 
-プログラミング言語の型システムには Structural Typing (構造的型付け) と Nominal Typing (名前的型付け)の2つの型付けの方法があります。まずはこの2つの違いについて整理を試みます。
+プログラミング言語の型システムには Structural Typing (構造的型付け) と Nominal Typing (名前的/公称的型付け)の2つの型付けの方法があります。まずはこの2つの違いについて整理を試みます。
 
 {/*
 TODO:
@@ -116,7 +116,7 @@ fn main() {
 
 Subtyping とは、上位に定義された型と下位に定義された型の関係性を表すための概念です。
 
-Subtyping には Structural Subtyping (構造的部分型) と Nominal Subtyping (公称的部分型) の2つの種類があります。
+Subtyping には Structural Subtyping (構造的部分型) と Nominal Subtyping (名前的/公称的部分型) の2つの種類があります。
 
 ### Structural Subtyping (構造的部分型)
 
@@ -167,7 +167,63 @@ I am a dog, bow wow.
 I am a cat, meow.
 ```
 
-### Nominal Subtyping (公称的部分型)
+### Nominal Subtyping (名前的部分型)
+
+名前的部分型とは、名前的型付けと同様に型の名前によって互換性が決まるというものです。
+
+先ほどの例を元に Rust で似たようなコードを書いてみます。
+
+```rust title="nominal-subtyping.rs" showLineNumbers {9-10, 20-21, 27, 41-44}
+trait Animal {
+    fn talk(&self);
+}
+
+struct Dog {
+    name: String,
+}
+
+// 明示的に Animal trait を Dog に実装
+impl Animal for Dog {
+    fn talk(&self) {
+        println!("I am a {}, bow wow.", self.name);
+    }
+}
+
+struct Cat {
+    name: String,
+}
+
+// Cat は Animal trait を実装していない
+impl Cat {
+    fn talk(&self) {
+        println!("I am a {}, meow.", self.name);
+    }
+}
+
+// Animal trait を引数として受け取る talk 関数
+fn talk(animal: &dyn Animal) {
+    animal.talk();
+}
+
+fn main() {
+    let dog = Dog {
+        name: String::from("dog"),
+    };
+    let cat = Cat {
+        name: String::from("cat"),
+    };
+
+    talk(&dog);
+    talk(&cat);
+    //    ^^^ the trait bound `Cat: Animal` is not satisfied
+    //    the trait `Animal` is implemented for `Dog`
+    //    required for the cast from `&Cat` to `&dyn Animal`
+}
+```
+
+この例では `Dog` に対して明示的に `Animal` の `trait` を実装しています。一方で `Cat` に対しては `Animal` の `trait` を実装していません。
+
+構造としては同じであるにも関わらず、 `talk(&cat)` の呼び出し時にコンパイルエラーが発生します。 Rust は名前的部分型を採用しているため、 `Cat` は `Animal` の部分型としては扱われていません。
 
 ## Variance（変性）とは
 
@@ -243,3 +299,5 @@ https://ja.wikipedia.org/wiki/%E3%82%B5%E3%83%96%E3%82%BF%E3%82%A4%E3%83%94%E3%8
 https://en.wikipedia.org/wiki/Polymorphism_(computer_science)
 
 https://developer.mozilla.org/ja/docs/Glossary/Polymorphism
+
+https://text.baldanders.info/remark/2020/04/subtyping/
