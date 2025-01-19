@@ -12,7 +12,7 @@ draft: false
 - 型に関する用語の関係性について私自身混乱しているため、記事としてまとめることで考えを整理すること
 - 私と同じように理解が曖昧な方に向けて整理の手助けをすること
 
-## Structural Typing (構造的型付け) と Nominal Typing (名前的型付け)
+## Structural Typing と Nominal Typing
 
 プログラミング言語の型システムには Structural Typing (構造的型付け) と Nominal Typing (名前的型付け)の2つの型付けの方法があります。まずはこの2つの違いについて整理を試みます。
 
@@ -26,23 +26,23 @@ TODO:
 
 構造的型付けにおいては、型の互換性は値の構造によって決まります。構造的型付けを採用する言語として代表的なものにはTypeScriptがあります。
 
-例えば TypeScript のドキュメントにも掲載されている以下の例 [^1] を見てみましょう。
+例えば以下の例[^1]を見てみましょう。
 
-[^1]: https://www.typescriptlang.org/docs/handbook/type-compatibility.html
+[^1]: 後述のStructural Subtypingと差別化するために https://www.typescriptlang.org/docs/handbook/type-compatibility.html の例を少し改変しています。
 
 ```typescript
-interface Pet {
-  name: string;
-}
 class Dog {
-  name: string;
+  name = 'dog';
 }
-let pet: Pet;
-// OK, because of structural typing
-pet = new Dog();
+class Cat {
+  name = 'cat';
+}
+let pet: Dog;
+// !! Dog 型の pet に Cat 型のインスタンスを代入してもエラーにならない!!
+pet = new Cat();
 ```
 
-この例では `Pet` という `interface` と `Dog` という `class` があります。`Dog` は `Pet` という `interface` に `name` というプロパティがあるという点で互換性があるため、`pet = new Dog();` という代入が可能です。
+この例では `Dog` という型で定義された `pet` 変数に対して、 `Cat` という型のインスタンスを代入しています。 `Dog` と `Cat` はそれぞれ異なるクラスですが、 `name` というプロパティを持っているという点で互換性があるため、TypeScriptにおいては型エラーにならずにコンパイルが通ります。
 
 このように、構造的型付けでは型の互換性は値の構造によって決まります。
 
@@ -105,13 +105,64 @@ fn main() {
 
 - Ad-hoc Polymorphism (特殊化多相性)
 - Parametric Polymorphism (パラメトリック多相性)
-- Subtyping (部分型・派生型など)
+- Subtyping (部分型・派生型)
 
-ここでは、Subtyping (部分型・派生型など) について詳しく見ていきます。
+ここでは、Subtyping について詳しく見ていきます。
 
-### Subtyping (部分型・派生型など) 
+### Subtyping (部分型・派生型)
+
+Subtyping とは、上位に定義された型と下位に定義された型の関係性を表すための概念です。
+
+Subtyping には Structural Subtyping (構造的部分型) と Nominal Subtyping (公称的部分型) の2つの種類があります。
 
 ### Structural Subtyping (構造的部分型)
+
+構造的部分型は、型の互換性が値の構造によって決まるというものです。最初に紹介した TypeScript は構造的型付けを採用しているため、自然と構造的部分型も採用しています。[^3]
+
+[^3]: 構造的型付けと構造的部分型の違いはあまりわかっていないですが、前者はあくまで型付けの話にフォーカスしてあり、後者は型の関係性（上位 vs. 下位）にフォーカスしているというくらいのことな気がしています。
+
+構造的部分型の例としては、以下の TypeScript のコードを見てみましょう。
+
+```typescript
+interface Animal {
+    name: string;
+    talk: () => void;
+}
+
+class Dog {
+    name = 'dog';
+    talk() {
+        console.log(`I am a ${this.name}, bow wow.`);
+    }
+}
+
+class Cat {
+    name = 'cat';
+    talk() {
+        console.log(`I am a ${this.name}, meow.`);
+    }
+}
+
+// talk は引数として Animal 型を受け取る
+function talk(animal: Animal) {
+    animal.talk();
+}
+
+const dog = new Dog();
+const cat = new Cat();
+
+// Dog や Cat 型を渡しても問題ない!
+talk(dog);
+talk(cat);
+```
+
+上記の例では、 `Animal` というインターフェイスを定義し、 `Dog` と `Cat` はそれぞれ `Animal` インターフェイスを実装しています。そのため、 `Dog` と `Cat` は `Animal` の部分型として扱われ、 `talk` 関数に引数として渡すことができます。
+TypeScriptによるコンパイルは問題なく通り、実行すると以下のような出力が得られます。
+
+```log
+I am a dog, bow wow.
+I am a cat, meow.
+```
 
 ### Nominal Subtyping (公称的部分型)
 
