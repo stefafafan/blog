@@ -40,6 +40,36 @@ const config: Config = {
         border: 'hsl(var(--border))',
         ring: 'hsl(var(--ring))',
       },
+      typography: {
+        DEFAULT: {
+          css: {
+            h1: {
+              'font-size': '2rem',
+            },
+            h2: {
+              'font-size': '1.4rem',
+            },
+            h3: {
+              'font-size': '1.2rem',
+            },
+            h4: {
+              'font-size': '1.1rem',
+            },
+            h5: {
+              'font-size': '1.1rem',
+            },
+            h6: {
+              'font-size': '1.1rem',
+            },
+            p: {
+              'font-size': '1.1rem',
+            },
+            li: {
+              'font-size': '1.1rem',
+            }
+          }
+        }
+      },
     },
   },
   plugins: [require('@tailwindcss/typography'), require('tailwindcss-animate')],
