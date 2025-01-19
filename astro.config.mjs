@@ -14,6 +14,7 @@ import rehypeExternalLinks from 'rehype-external-links'
 import rehypePrettyCode from 'rehype-pretty-code'
 import remarkEmoji from 'remark-emoji'
 import remarkMath from 'remark-math'
+import remarkToc from 'remark-toc'
 import remarkEmbedder from '@remark-embedder/core'
 import oembedTransformer from '@remark-embedder/transformer-oembed'
 import Cache from '@remark-embedder/cache'
@@ -99,6 +100,7 @@ export default defineConfig({
       ],
     ],
     remarkPlugins: [
+      remarkToc,
       remarkMath,
       remarkEmoji,
       // Using workaround as mentioned here: https://github.com/shikijs/twoslash/issues/147
