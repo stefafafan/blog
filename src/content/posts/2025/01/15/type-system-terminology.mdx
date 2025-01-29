@@ -1,0 +1,348 @@
+---
+title: 'TBD: 型システムに関する用語の整理'
+description: 'RustやTypeScriptのコードを用いながら整理します。'
+date: 2025-01-15
+tags: ['rust', 'typescript', 'type-safety']
+draft: false
+---
+
+こんにちは、 id:stefafafan です。最近私は仕事でTypeScriptを書いたり、趣味でRustの勉強をしています。その中で、様々な型システムに関する用語を目にしてきました。自分の中でそれらの用語の違いを整理するためにも、この記事を書いてみようと思います。
+
+## この記事のゴール
+
+- 型に関する用語の関係性について私自身混乱しているため、記事としてまとめることで考えを整理すること
+- 私と同じように理解が曖昧な方に向けて整理の手助けをすること
+
+## Type Safety (型安全性) とは
+
+- TAPL本を参照する
+
+## Structural Typing と Nominal Typing
+
+プログラミング言語の型システムには Structural Typing (構造的型付け) と Nominal Typing (名前的/公称的型付け)の2つの型付けの方法があります。まずはこの2つの違いについて整理を試みます。
+
+{/*
+TODO:
+
+- TAPL本を参照する
+- それぞれの特徴・良し悪し
+*/}
+
+### Structural Typing (構造的型付け)
+
+構造的型付けにおいては、型の互換性は値の構造によって決まります。構造的型付けを採用する言語として代表的なものにはTypeScriptがあります。
+
+例えば以下の例[^1]を見てみましょう。
+
+[^1]: 後述のStructural Subtypingと差別化するために https://www.typescriptlang.org/docs/handbook/type-compatibility.html の例を少し改変しています。
+
+```typescript title="structural-typing.ts" showLineNumbers {9}
+class Dog {
+  name = 'dog'
+}
+class Cat {
+  name = 'cat'
+}
+
+let pet: Dog
+// !! Dog 型の pet に Cat 型のインスタンスを代入してもエラーにならない!!
+pet = new Cat()
+```
+
+この例では `Dog` という型で定義された `pet` 変数に対して、 `Cat` という型のインスタンスを代入しています。 `Dog` と `Cat` はそれぞれ異なるクラスですが、 `name` というプロパティを持っているという点で互換性があるため、TypeScriptにおいては型エラーにならずにコンパイルが通ります。
+
+このように、構造的型付けでは型の互換性は値の構造によって決まります。
+
+### Nominal Typing (名前的型付け)
+
+名前的型付けでは型の互換性は型の名前によって決まります。名前的型付けを採用する言語としての一例にはRustがあります。
+
+先ほどの TypeScript の例をRustで書いた場合、以下のようになります。
+
+```rust title="nominal-typing.rs" showLineNumbers {11-14}
+struct Pet {
+    name: String,
+}
+
+struct Dog {
+    name: String,
+}
+
+fn main() {
+    let pet: Pet;
+    pet = Dog {
+        // ^^^ mismatched types expected `Pet`, found `Dog`
+        name: String::from("Hachi"),
+    };
+}
+```
+
+`Pet` として定義された変数に `Dog` を代入しようとすると、Rust は型エラーを出力します。Rust では型の名前によって互換性が決まるため、 `Pet` と `Dog` は別の型として扱われます。
+
+しかし、以下の例のようにプリミティブ型をそのまま利用する際は Rust のコンパイラは型エラーを出力しません。このようなケースにおいては後述する New Type Pattern などを利用して型安全性を確保することが推奨されています。
+
+```rust title="primitive-parameter-type.rs" showLineNumbers {12-13}
+// マイル数をキロメートル数に変換する関数
+fn miles_to_kilometers(miles: f64) -> f64 {
+    miles * 1.60934
+}
+
+fn main() {
+    let miles = 10.0;
+    let kilometers = miles_to_kilometers(miles);
+    println!("{} miles is equal to {} kilometers", miles, kilometers);
+
+    let kilometers2: f64 = 20.0;
+    // !! miles 引数に対して kilometers2 の値を渡しても型エラーにならない!!
+    let miles2: f64 = miles_to_kilometers(kilometers2);
+    println!("{} miles is equal to {} kilometers", miles2, kilometers2);
+}
+```
+
+## Polymorphism (多態性・多相性)
+
+型システムにおいて、Polymorphismについても話していく必要があります。
+
+> Polymorphism (多態性)とは複数のデータ型を 1 つのインターフェイスにまとめた表現です。
+> https://developer.mozilla.org/ja/docs/Glossary/Polymorphism
+
+大きく3つの種類があります。 [^2]
+
+[^2]: https://en.wikipedia.org/wiki/Polymorphism_(computer_science)
+
+- Ad-hoc Polymorphism (特殊化多相性)
+- Parametric Polymorphism (パラメトリック多相性)
+- Subtyping (部分型・派生型)
+
+ここでは、Subtyping について詳しく見ていきます。
+
+### Subtyping (部分型・派生型)
+
+Subtyping とは、上位に定義された型と下位に定義された型の関係性を表すための概念です。
+
+Subtyping には Structural Subtyping (構造的部分型) と Nominal Subtyping (名前的/公称的部分型) の2つの種類があります。
+
+#### Structural Subtyping (構造的部分型)
+
+構造的部分型は、型の互換性が値の構造によって決まるというものです。最初に紹介した TypeScript は構造的型付けを採用しているため、自然と構造的部分型も採用しています。[^3]
+
+[^3]: 構造的型付けと構造的部分型の違いはあまりわかっていないですが、前者はあくまで型付けの話にフォーカスしてあり、後者は型の関係性（上位 vs. 下位）にフォーカスしているというくらいのことな気がしています。
+
+構造的部分型の例としては、以下の TypeScript のコードを見てみましょう。
+
+```typescript title="structural-subtyping.ts" showLineNumbers {20-21, 28-30}
+interface Animal {
+  name: string
+  talk: () => void
+}
+
+class Dog {
+  name = 'dog'
+  talk() {
+    console.log(`I am a ${this.name}, bow wow.`)
+  }
+}
+
+class Cat {
+  name = 'cat'
+  talk() {
+    console.log(`I am a ${this.name}, meow.`)
+  }
+}
+
+// talk は引数として Animal 型を受け取る
+function talk(animal: Animal) {
+  animal.talk()
+}
+
+const dog = new Dog()
+const cat = new Cat()
+
+// Dog や Cat 型を渡しても問題ない!
+talk(dog)
+talk(cat)
+```
+
+上記の例では、 `Animal` というインターフェイスを定義し、 `Dog` と `Cat` はそれぞれ `Animal` インターフェイスを実装しています。そのため、 `Dog` と `Cat` は `Animal` の部分型として扱われ、 `talk` 関数に引数として渡すことができます。
+TypeScriptによるコンパイルは問題なく通り、実行すると以下のような出力が得られます。
+
+```log title="output"
+I am a dog, bow wow.
+I am a cat, meow.
+```
+
+#### Nominal Subtyping (名前的部分型)
+
+名前的部分型とは、名前的型付けと同様に型の名前によって互換性が決まるというものです。
+
+先ほどの例を元に Rust で似たようなコードを書いてみます。
+
+```rust title="nominal-subtyping.rs" showLineNumbers {9-10, 20-21, 27, 41-44}
+trait Animal {
+    fn talk(&self);
+}
+
+struct Dog {
+    name: String,
+}
+
+// 明示的に Animal trait を Dog に実装
+impl Animal for Dog {
+    fn talk(&self) {
+        println!("I am a {}, bow wow.", self.name);
+    }
+}
+
+struct Cat {
+    name: String,
+}
+
+// Cat は Animal trait を実装していない
+impl Cat {
+    fn talk(&self) {
+        println!("I am a {}, meow.", self.name);
+    }
+}
+
+// Animal trait を引数として受け取る talk 関数
+fn talk(animal: &dyn Animal) {
+    animal.talk();
+}
+
+fn main() {
+    let dog = Dog {
+        name: String::from("dog"),
+    };
+    let cat = Cat {
+        name: String::from("cat"),
+    };
+
+    talk(&dog);
+    talk(&cat);
+    //    ^^^ the trait bound `Cat: Animal` is not satisfied
+    //    the trait `Animal` is implemented for `Dog`
+    //    required for the cast from `&Cat` to `&dyn Animal`
+}
+```
+
+この例では `Dog` に対して明示的に `Animal` の `trait` を実装しています。一方で `Cat` に対しては `Animal` の `trait` を実装していません。
+
+構造としては同じであるにも関わらず、 `talk(&cat)` の呼び出し時にコンパイルエラーが発生します。 Rust は名前的部分型を採用しているため、 `Cat` は `Animal` の部分型としては扱われていません。
+
+### Variance（変性）
+
+Subtyping に関する概念として Variance（変性）があります。変性とは上位型と下位型の関係性において、どのような性質を持つかを表す概念です。
+
+変性にはのような種類があります。
+
+- Covariance (共変性)
+- Contravariance (反変性)
+- Invariance (不変性)
+- Bivariance (双変性)
+
+#### Covariance (共変性)
+
+共変性とは
+
+#### Contravariance (反変性)
+
+#### Invariance (不変性)
+
+#### Bivariance (双変性)
+
+## New Type Pattern
+
+- Haskell での例
+- Rust での例
+- TypeScript での例
+  - Branded Types
+  - zod, newtype-ts, type-fest, ...
+
+## Phantom Types (幽霊型)
+
+- Rust での例
+- TypeScript での例
+
+## Opaque Types
+
+- Rust での例
+- TypeScript での例
+
+## まとめ
+
+型に関するいくつかの用語を整理してきました。ここで改めて振り返っていきます。
+
+### 用語の表記
+同じ概念に対して表記が異なることがあります（特に日本語での表記）。以下にまとめておきます。
+
+- Type Safety = Type Soundness = 型安全性
+- Structural = 構造的
+- Nominal = Nominitive = Name-based = 名前的 = 公称的
+- Subtyping = 部分型 = 派生型
+- Branded = Tagged
+- TODO
+
+xxx
+
+- 概念の整理
+  - Structural Typing, Nominal Typing
+  - Subtyping, Variance
+  - New Type Pattern, Phantom Types, Opaque Types
+
+## 参考
+
+https://wiki.haskell.org/index.php?title=Newtype
+
+https://www.haskell.org/onlinereport/decls.html#sect4.2.3
+
+https://haskell.jp/blog/posts/2020/how-to-use-type-newtype-data.html
+
+https://scrapbox.io/mrsekut-p/Haskell%E3%81%AEnewtype
+
+https://speakerdeck.com/konn/ben-dang-hasugoi-newtype
+
+https://medium.com/@KevinBGreene/surviving-the-typescript-ecosystem-branding-and-type-tagging-6cf6e516523d
+
+https://michalzalecki.com/nominal-typing-in-typescript/#approach-4-intersection-types-and-brands
+
+https://wiki.c2.com/?NominativeAndStructuralTyping
+
+https://bufferings.hatenablog.com/entry/2025/01/12/171721
+
+https://www.learningtypescript.com/articles/branded-types
+
+https://effect.website/docs/code-style/branded-types/
+
+https://scrapbox.io/nyaagoo/Structural_Subtyping_vs_Nominal_Subtyping_%E6%AF%94%E8%BC%83%E3%81%97%E3%81%A6%E7%90%86%E8%A7%A3%E3%81%99%E3%82%8B
+
+https://lexi-lambda.github.io/blog/2020/11/01/names-are-not-type-safety/
+
+https://lexi-lambda.github.io/blog/2020/08/13/types-as-axioms-or-playing-god-with-static-types/
+
+https://www.typescriptlang.org/docs/handbook/type-compatibility.html
+
+https://ja.wikipedia.org/wiki/%E3%82%B5%E3%83%96%E3%82%BF%E3%82%A4%E3%83%94%E3%83%B3%E3%82%B0_(%E8%A8%88%E7%AE%97%E6%A9%9F%E7%A7%91%E5%AD%A6)
+
+https://en.wikipedia.org/wiki/Polymorphism_(computer_science)
+
+https://developer.mozilla.org/ja/docs/Glossary/Polymorphism
+
+https://text.baldanders.info/remark/2020/04/subtyping/
+
+https://en.wikipedia.org/wiki/Covariance_and_contravariance_(computer_science)
+https://ja.wikipedia.org/wiki/%E5%85%B1%E5%A4%89%E6%80%A7%E3%81%A8%E5%8F%8D%E5%A4%89%E6%80%A7_(%E8%A8%88%E7%AE%97%E6%A9%9F%E7%A7%91%E5%AD%A6)
+
+https://spin.atomicobject.com/typescript-flexible-nominal-typing/
+
+https://sititou70.github.io/TypeScript%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B%E9%85%8D%E5%88%97%E3%81%AE%E5%85%B1%E5%A4%89%E6%80%A7/
+
+https://zenn.dev/jay_es/articles/2024-02-13-typescript-variance
+
+https://numb86-tech.hatenablog.com/entry/2020/07/04/095737
+
+https://tarao.hatenablog.com/entry/subtyping-polarity
+
+https://en.wikipedia.org/wiki/Type_safety
+
+TAPL本
+プロを目指す人のためのTypeScript入門
