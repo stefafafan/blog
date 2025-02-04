@@ -89,7 +89,9 @@ export default defineConfig({
             dark: 'material-theme-darker',
           },
           transformers: [
-            transformerNotationDiff(),
+            transformerNotationDiff({
+              matchAlgorithm: 'v3',
+            }),
             transformerMetaHighlight(),
             transformerCopyButton({
               visibility: 'hover',
