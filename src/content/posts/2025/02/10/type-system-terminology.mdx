@@ -1,7 +1,7 @@
 ---
 title: 'TBD: 型システムに関する用語の整理'
 description: 'RustやTypeScriptのコードを用いながら整理します。'
-date: 2025-01-15
+date: 2025-02-10
 tags: ['rust', 'typescript', 'type-safety']
 draft: false
 ---
@@ -72,32 +72,12 @@ fn main() {
     let pet: Pet;
     pet = Dog {
         // ^^^ mismatched types expected `Pet`, found `Dog`
-        name: String::from("Hachi"),
+        name: String::from("dog"),
     };
 }
 ```
 
 `Pet` として定義された変数に `Dog` を代入しようとすると、Rust は型エラーを出力します。Rust では型の名前によって互換性が決まるため、 `Pet` と `Dog` は別の型として扱われます。
-
-しかし、以下の例のようにプリミティブ型をそのまま利用する際は Rust のコンパイラは型エラーを出力しません。このようなケースにおいては後述する New Type Pattern などを利用して型安全性を確保することが推奨されています。
-
-```rust title="primitive-parameter-type.rs" showLineNumbers {12-13}
-// マイル数をキロメートル数に変換する関数
-fn miles_to_kilometers(miles: f64) -> f64 {
-    miles * 1.60934
-}
-
-fn main() {
-    let miles = 10.0;
-    let kilometers = miles_to_kilometers(miles);
-    println!("{} miles is equal to {} kilometers", miles, kilometers);
-
-    let kilometers2: f64 = 20.0;
-    // !! miles 引数に対して kilometers2 の値を渡しても型エラーにならない!!
-    let miles2: f64 = miles_to_kilometers(kilometers2);
-    println!("{} miles is equal to {} kilometers", miles2, kilometers2);
-}
-```
 
 ## Polymorphism (多態性・多相性)
 
@@ -163,7 +143,7 @@ talk(dog)
 talk(cat)
 ```
 
-上記の例では、 `Animal` というインターフェイスを定義し、 `Dog` と `Cat` はそれぞれ `Animal` インターフェイスを実装しています。そのため、 `Dog` と `Cat` は `Animal` の部分型として扱われ、 `talk` 関数に引数として渡すことができます。
+上記の例では、 `Animal` というインターフェイスを定義し、 `Dog` と `Cat` はそれぞれ `Animal` インターフェイスに構造が合う形で実装されています。そのため、 `Dog` と `Cat` は `Animal` の部分型として扱われ、 `talk` 関数に引数として渡すことができます。
 TypeScriptによるコンパイルは問題なく通り、実行すると以下のような出力が得られます。
 
 ```log title="output"
@@ -240,6 +220,8 @@ Subtyping に関する概念として Variance（変性）があります。変�
 - Invariance (不変性)
 - Bivariance (双変性)
 
+それぞれ紹介していきます。
+
 #### Covariance (共変性)
 
 共変性とは
@@ -257,6 +239,26 @@ Subtyping に関する概念として Variance（変性）があります。変�
 - TypeScript での例
   - Branded Types
   - zod, newtype-ts, type-fest, ...
+
+以下の例のようにプリミティブ型をそのまま利用する際は Rust のコンパイラは型エラーを出力しません。このようなケースにおいては後述する New Type Pattern などを利用して型安全性を確保することが推奨されています。
+
+```rust title="primitive-parameter-type.rs" showLineNumbers {12-13}
+// マイル数をキロメートル数に変換する関数
+fn miles_to_kilometers(miles: f64) -> f64 {
+    miles * 1.60934
+}
+
+fn main() {
+    let miles = 10.0;
+    let kilometers = miles_to_kilometers(miles);
+    println!("{} miles is equal to {} kilometers", miles, kilometers);
+
+    let kilometers2: f64 = 20.0;
+    // !! miles 引数に対して kilometers2 の値を渡しても型エラーにならない!!
+    let miles2: f64 = miles_to_kilometers(kilometers2);
+    println!("{} miles is equal to {} kilometers", miles2, kilometers2);
+}
+```
 
 ## Phantom Types (幽霊型)
 
@@ -346,3 +348,7 @@ https://en.wikipedia.org/wiki/Type_safety
 
 TAPL本
 プロを目指す人のためのTypeScript入門
+
+https://doc.rust-lang.org/nomicon/subtyping.html
+
+https://doc.rust-lang.org/reference/subtyping.html
