@@ -1,6 +1,6 @@
 {
-  "name": "/^fa{3}$/",
-  "short_name": "/^fa{3}$/",
+  "name": "/^(fa){3}$/",
+  "short_name": "/^(fa){3}$/",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
