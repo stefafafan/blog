@@ -16,7 +16,7 @@ importers:
         version: 6.1.0
       '@astrojs/mdx':
         specifier: 4.0.8
-        version: 4.0.8(astro@5.2.6(@types/node@22.10.4)(jiti@1.21.7)(rollup@4.29.1)(typescript@5.7.3)(yaml@2.7.0))
+        version: 4.0.8(astro@5.3.0(@types/node@22.10.4)(jiti@1.21.7)(rollup@4.29.1)(typescript@5.7.3)(yaml@2.7.0))
       '@astrojs/react':
         specifier: 4.2.0
         version: 4.2.0(@types/node@22.10.4)(@types/react-dom@18.3.5(@types/react@18.3.18))(@types/react@18.3.18)(jiti@1.21.7)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(yaml@2.7.0)
@@ -28,7 +28,7 @@ importers:
         version: 3.2.1
       '@astrojs/tailwind':
         specifier: 5.1.5
-        version: 5.1.5(astro@5.2.6(@types/node@22.10.4)(jiti@1.21.7)(rollup@4.29.1)(typescript@5.7.3)(yaml@2.7.0))(tailwindcss@3.4.17)
+        version: 5.1.5(astro@5.3.0(@types/node@22.10.4)(jiti@1.21.7)(rollup@4.29.1)(typescript@5.7.3)(yaml@2.7.0))(tailwindcss@3.4.17)
       '@hbsnow/rehype-sectionize':
         specifier: 1.0.7
         version: 1.0.7
@@ -75,8 +75,8 @@ importers:
         specifier: 18.3.5
         version: 18.3.5(@types/react@18.3.18)
       astro:
-        specifier: 5.2.6
-        version: 5.2.6(@types/node@22.10.4)(jiti@1.21.7)(rollup@4.29.1)(typescript@5.7.3)(yaml@2.7.0)
+        specifier: 5.3.0
+        version: 5.3.0(@types/node@22.10.4)(jiti@1.21.7)(rollup@4.29.1)(typescript@5.7.3)(yaml@2.7.0)
       astro-icon:
         specifier: 1.1.5
         version: 1.1.5
@@ -1358,8 +1358,8 @@ packages:
   astro-icon@1.1.5:
     resolution: {integrity: sha512-CJYS5nWOw9jz4RpGWmzNQY7D0y2ZZacH7atL2K9DeJXJVaz7/5WrxeyIxO8KASk1jCM96Q4LjRx/F3R+InjJrw==}
 
-  astro@5.2.6:
-    resolution: {integrity: sha512-CrTuJMwpWF9kmOhX+cl6uPqNbTRrHO7eXggFP9SK7+Bsen/7FpJtA6k1p/ALleuV5ndJLqn/9tpmP3qACHPjYA==}
+  astro@5.3.0:
+    resolution: {integrity: sha512-e88l/Yk/6enR/ZDddLbqtM+oblBFk5mneNSmNesyVYGL/6Dj4UA67GPAZOk79VxT5dbLlclZSyyw/wlxN1aj3A==}
     engines: {node: ^18.17.1 || ^20.3.0 || >=22.0.0, npm: '>=9.6.5', pnpm: '>=7.1.0'}
     hasBin: true
 
@@ -3738,12 +3738,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@astrojs/mdx@4.0.8(astro@5.2.6(@types/node@22.10.4)(jiti@1.21.7)(rollup@4.29.1)(typescript@5.7.3)(yaml@2.7.0))':
+  '@astrojs/mdx@4.0.8(astro@5.3.0(@types/node@22.10.4)(jiti@1.21.7)(rollup@4.29.1)(typescript@5.7.3)(yaml@2.7.0))':
     dependencies:
       '@astrojs/markdown-remark': 6.1.0
       '@mdx-js/mdx': 3.1.0(acorn@8.14.0)
       acorn: 8.14.0
-      astro: 5.2.6(@types/node@22.10.4)(jiti@1.21.7)(rollup@4.29.1)(typescript@5.7.3)(yaml@2.7.0)
+      astro: 5.3.0(@types/node@22.10.4)(jiti@1.21.7)(rollup@4.29.1)(typescript@5.7.3)(yaml@2.7.0)
       es-module-lexer: 1.6.0
       estree-util-visit: 2.0.0
       hast-util-to-html: 9.0.4
@@ -3795,9 +3795,9 @@ snapshots:
       stream-replace-string: 2.0.0
       zod: 3.24.1
 
-  '@astrojs/tailwind@5.1.5(astro@5.2.6(@types/node@22.10.4)(jiti@1.21.7)(rollup@4.29.1)(typescript@5.7.3)(yaml@2.7.0))(tailwindcss@3.4.17)':
+  '@astrojs/tailwind@5.1.5(astro@5.3.0(@types/node@22.10.4)(jiti@1.21.7)(rollup@4.29.1)(typescript@5.7.3)(yaml@2.7.0))(tailwindcss@3.4.17)':
     dependencies:
-      astro: 5.2.6(@types/node@22.10.4)(jiti@1.21.7)(rollup@4.29.1)(typescript@5.7.3)(yaml@2.7.0)
+      astro: 5.3.0(@types/node@22.10.4)(jiti@1.21.7)(rollup@4.29.1)(typescript@5.7.3)(yaml@2.7.0)
       autoprefixer: 10.4.20(postcss@8.5.1)
       postcss: 8.5.1
       postcss-load-config: 4.0.2(postcss@8.5.1)
@@ -4626,7 +4626,7 @@ snapshots:
       '@shikijs/engine-javascript': 1.29.2
       '@shikijs/engine-oniguruma': 1.29.2
       '@shikijs/types': 1.29.2
-      '@shikijs/vscode-textmate': 10.0.1
+      '@shikijs/vscode-textmate': 10.0.2
       '@types/hast': 3.0.4
       hast-util-to-html: 9.0.4
 
@@ -4648,7 +4648,7 @@ snapshots:
   '@shikijs/engine-javascript@1.29.2':
     dependencies:
       '@shikijs/types': 1.29.2
-      '@shikijs/vscode-textmate': 10.0.1
+      '@shikijs/vscode-textmate': 10.0.2
       oniguruma-to-es: 2.2.0
 
   '@shikijs/engine-javascript@2.4.1':
@@ -4665,7 +4665,7 @@ snapshots:
   '@shikijs/engine-oniguruma@1.29.2':
     dependencies:
       '@shikijs/types': 1.29.2
-      '@shikijs/vscode-textmate': 10.0.1
+      '@shikijs/vscode-textmate': 10.0.2
 
   '@shikijs/engine-oniguruma@2.4.1':
     dependencies:
@@ -4700,7 +4700,7 @@ snapshots:
 
   '@shikijs/types@1.29.2':
     dependencies:
-      '@shikijs/vscode-textmate': 10.0.1
+      '@shikijs/vscode-textmate': 10.0.2
       '@types/hast': 3.0.4
 
   '@shikijs/types@2.4.1':
@@ -4954,7 +4954,7 @@ snapshots:
       - debug
       - supports-color
 
-  astro@5.2.6(@types/node@22.10.4)(jiti@1.21.7)(rollup@4.29.1)(typescript@5.7.3)(yaml@2.7.0):
+  astro@5.3.0(@types/node@22.10.4)(jiti@1.21.7)(rollup@4.29.1)(typescript@5.7.3)(yaml@2.7.0):
     dependencies:
       '@astrojs/compiler': 2.10.3
       '@astrojs/internal-helpers': 0.5.1
@@ -7213,7 +7213,7 @@ snapshots:
       '@shikijs/langs': 1.29.2
       '@shikijs/themes': 1.29.2
       '@shikijs/types': 1.29.2
-      '@shikijs/vscode-textmate': 10.0.1
+      '@shikijs/vscode-textmate': 10.0.2
       '@types/hast': 3.0.4
 
   signal-exit@4.1.0: {}
