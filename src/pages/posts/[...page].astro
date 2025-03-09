@@ -1,6 +1,5 @@
 ---
 import BlogCard from '@/components/BlogCard.astro'
-import Breadcrumbs from '@/components/Breadcrumbs.astro'
 import Container from '@/components/Container.astro'
 import PaginationComponent from '@/components/ui/pagination'
 import { SITE } from '@/consts'
@@ -36,13 +35,6 @@ const years = Object.keys(postsByYear).sort((a, b) => parseInt(b) - parseInt(a))
 
 <Layout title="Posts" description="Posts">
   <Container class="flex grow flex-col gap-y-6">
-    <Breadcrumbs
-      items={[
-        { label: 'Posts', href: '/posts', icon: 'lucide:archive' },
-        { label: `Page ${page.currentPage}`, icon: 'lucide:folder-open' },
-      ]}
-    />
-
     <div class="flex min-h-[calc(100vh-18rem)] flex-col gap-y-8">
       {
         years.map((year) => (

@@ -1,5 +1,4 @@
 ---
-import Breadcrumbs from '@/components/Breadcrumbs.astro'
 import TableOfContents from '@/components/TableOfContents.astro'
 import { badgeVariants } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -32,13 +31,6 @@ const { Content, headings } = await render(post)
   <section
     class="post-container grid grid-cols-[minmax(0px,1fr)_min(768px,100%)_minmax(0px,1fr)] gap-y-6 *:px-4"
   >
-    <Breadcrumbs
-      items={[
-        { href: '/posts', label: 'Posts', icon: 'lucide:archive' },
-        { label: post.data.title, icon: 'lucide:file-text' },
-      ]}
-      class="col-start-2"
-    />
     {
       post.data.image && (
         <Image
