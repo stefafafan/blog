@@ -6,4 +6,40 @@ tags: ['tech', 'php', 'codegolf', 'event']
 draft: false
 ---
 
-[PHPerKaigi 2025 PHPerコードバトル 予選 - connpass](https://phperkaigi.connpass.com/event/346294/) に参加しました。
+先日[PHPerKaigi 2025 PHPerコードバトル 予選 - connpass](https://phperkaigi.connpass.com/event/346294/) に参加しました。その際の感想を書きます。
+
+## 参加するまでの背景
+
+正直私は「PHPerコードバトル」が何なのか「コードの何でバトルをするのか」もよくわからず、PHPも得意というわけでもなかったのでイベントを知ったところで参加するつもりはなかったですが、 [asumikam](https://x.com/asumikam) さんが「一緒に参加しよう！」と誘ってくれたのをきっかけに勢いで参加登録しました。
+
+説明を読む限りはいわゆる「コードゴルフ」のような、コードの行数を削ることを競うイベントだと理解しました。私は一度もコードゴルフ的な大会に参加したことはなかったですが、とりあえず参加してみて楽しもうということで気軽に挑みました。
+
+## 事前準備
+
+1行も書けない状態だと恥ずかしいなと思って、事前にPHPのマニュアルを軽く眺めて文法を確認したり、手元にPHPのコードを適当に書いておくためのディレクトリを掘っておいたりしました。
+
+asumikam さんがChatGPTに色々コードゴルフテクニックを聞いているという話をしてたので、私も真似してChatGPTに聞いた上で以下のメモを手元にこさえました。
+
+```php title="memo.php"
+// arrow function
+// instead of function($x) { return $x * $x; }
+fn($x) => $x * $x;
+
+// Null合体代入演算子
+// instead of if (!isset($a)) { $a = 'default'; }
+$a ??= 'default';
+
+// 三項演算子の省略形
+// instead of $result = $value ? $value : 'default';
+$result = $value ?: 'default';
+
+// 複数変数の同時代入
+// instead of $a = 10; $b = 10; $c = 10;
+$a = $b = $c = 10;
+
+// 条件分岐で単一のアクションのみを行う場合、and や or を使った短絡評価で記述を短くできる
+// instead of if ($a) { exit; }
+$a or exit;
+```
+
+`function` を `fn` で書くことができる[アロー関数](https://www.php.net/manual/ja/functions.arrow.php)は絶対使えそうだなと思ったり、 `$a or exit` はPerlの `or die` を思い出すなとこの時点で思ったりしました。あとなるべく `for {}` などの `{}` を省略していきたいなと思ってみたり。
