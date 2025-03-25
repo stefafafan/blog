@@ -32,7 +32,7 @@
     "@remark-embedder/core": "3.0.3",
     "@remark-embedder/transformer-oembed": "5.0.1",
     "@shikijs/transformers": "3.2.1",
-    "@types/react": "18.3.19",
+    "@types/react": "18.3.20",
     "@types/react-dom": "18.3.5",
     "astro": "5.5.4",
     "astro-icon": "1.1.5",
