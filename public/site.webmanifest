@@ -1,6 +1,6 @@
 {
-  "name": "/^(fa){3}$/",
-  "short_name": "/^(fa){3}$/",
+  "name": "stenyan.dev",
+  "short_name": "stenyan.dev",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
