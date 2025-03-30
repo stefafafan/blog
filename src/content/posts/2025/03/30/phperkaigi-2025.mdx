@@ -1,0 +1,73 @@
+---
+title: 'PHPerKaigi 2025 に参加しました #phperkaigi'
+description: 'PHPerKaigi 2025というITカンファレンスに参加した際の感想を書きます。'
+date: 2025-03-30
+tags: ['tech', 'php', 'codegolf', 'event']
+draft: false
+---
+
+3/21 - 3/23 に開催された[PHPerKaigi 2025](https://phperkaigi.jp/2025/)に参加しました。今回その感想を簡単に書きます。
+
+## 参加までの経緯
+
+[あすみ](https://x.com/asumikam) におすすめされたのと、私自身 [長谷川さん](https://x.com/tomzoh) の主催するカンファレンス ([PHPerKaigi](https://phperkaigi.jp/) or [iOSDC](https://iosdc.jp/)) に興味があったのでちょうど良い機会と思って今回初めて参加しました。特に開催日数が複数日に渡る (前夜祭+2日) というのがお祭り感が高そうで期待していました。
+
+実は元々 3/21 (金) は仕事をして土日だけ参加を検討していましたが、プレイベントの「PHPerコードバトル予選」に思いがけず勝ち抜いたので、まあせっかくだから前夜祭から参加しようと決めました。
+
+[PHPerKaigi 2025 PHPerコードバトル予選に参加しました #phperkaigi | stenyan.dev](https://stenyan.dev/posts/2025/03/09/phperkaigi-codebattle-qualifying)
+
+## 印象に残ったセッションやLT
+
+Day 0 はずっとPHPerコードバトルに参戦中でしたのでセッションをリアルタイムでは聴けませんでしたが、Day 1とDay 2はいくつか聴講することができました。
+
+### BCMathを高速化した一部始終をC言語でガチ目に解説する
+
+https://speakerdeck.com/sakitakamachi/bcmath-performance-improvement-explanation
+
+巨大な桁数の計算を行うための拡張モジュールBCMathをどのようにして高速化したかという話でした。普段業務でこのレベルでコンピューターに近いレイヤーで計算を高速化しないといけないという状況になったことはなかったので興味深かったです。
+
+- 不要な計算を省く
+- 並列で処理する
+- メモリ確保の回数を減らす
+- ヒープよりもスタック領域の利用を優先する
+
+みたいなことを言ってるところはなんとなく理解できましたが、じゃあ実際割り算とかの高速化においてこうしましたみたいなところは全然理解が追いつかなくて面白かったです (?)
+
+しかしこの部分はものすごく混みいってるらしく、がっつりとコメントに説明を書いてくれていることはとてもありがたいなと思いました :eyes:
+
+https://github.com/php/php-src/blob/0607c22f8e6d4c769b14ebf5771c05bd682cc731/ext/bcmath/libbcmath/src/div.c#L82-L167
+
+### 私の愛したLaravel 〜レールを超えたその先へ〜
+
+https://speakerdeck.com/kentaroutakeda/si-noai-sitalaravel-reruwochao-etasonoxian-he
+
+発表は主にLaravelの話でしたが、全体の方向性としては一言で言えば「郷に入っては郷に従え」的なことだと感じました。
+Laravelのフレームワークを使いつつ他の見聞きしたプラクティスを中途半端に取り入れようとすると破綻する可能性があるので、デフォルトの状態で足りなければ「Laravelの仕組みで」「Laravelを拡張して」使おうみたいなことだと理解しました。
+
+たしかに、フルスタックなフレームワークとしての思想にがっつり乗っかれば最高速で開発できそうだし、がっつり乗っかるつもりがもとよりないのなら、フルスタックではないものを選ぶのがいいのかなという気持ちになりました。何はともあれ利用するライブラリの意図や思想をちゃんと理解することが大事そうという気持ちになれてよかったです。
+
+### プロダクトコードとOSSに学ぶ例外処理の選択肢 — キャッチするのか、投げっぱなしにするのか
+
+https://speakerdeck.com/asumikam/learn-exception-by-oss
+
+### PHPで作るPHP～セルフホストできる言語処理系を作ろう～
+
+https://blog.nsfisis.dev/slides/2025-03-23/phperkaigi-2025**/**
+
+### List とは何か？
+
+https://speakerdeck.com/meihei3/phperkaigi-2025
+
+### AUTO_INCREMENTのIDカラムがオーバーフローしたらどうなるの？実例から学ぶDB設計の注意点
+
+https://speakerdeck.com/yamamotohiroya/auto-incrementnoidkaramugaobahurositaradounaruno-shi-li-karaxue-budbshe-ji-nozhu-yi-dian
+
+## 印象に残った企画
+
+### パンフレット記事
+
+### ニコ生配信+タイムシフト視聴
+
+### PHPerコードバトル予選
+
+### PHPerチャレンジ
