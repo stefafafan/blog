@@ -1,0 +1,87 @@
+---
+title: '特定のAI向けドキュメントを個別に用意したくない'
+description: '特定のAIのためだけに個別にドキュメントを整備したくないという話を書きます。'
+date: 2025-04-23
+tags: ['tech', 'ai', 'documentation']
+draft: false
+---
+
+最近CopilotやDevinについて調べたり検証していく中で思ったことについて簡単に書き留めておきます。
+
+`README.md` を起点としたドキュメンテーションを整備したいと思っています。これは人間もAIも共通で参照してもらいたいです。
+
+様々なAIやエディタ向けのドキュメント（カスタム指示）を個別にメンテするのではなく、1つのものをSingle Source of Truth[^1]としたい。
+
+[^1]: https://ja.wikipedia.org/wiki/信頼できる唯一の情報源
+
+## AI向けのカスタム指示の仕方について整理
+
+### GitHub Copilot
+
+[Copilot](https://docs.github.com/ja/copilot) は `.github/copilot-instructions.md` というファイルに書かれたカスタム指示を読み込んでコード生成してくれます。また、VS Code向けの設定ファイル `settings.json` に設定を書くと特定のパスに置かれたファイルを読み込ませることができます。
+
+[Custom instructions for GitHub Copilot in VS Code](https://code.visualstudio.com/docs/copilot/copilot-customization)
+
+### Cursor
+
+[Cursor](https://www.cursor.com/ja) は `.cursor/rules/` というディレクトリ配下にプロジェクトに関するルールを記述することができます。 `.mdc` 形式のファイルを使います。
+
+[Cursor – Rules](https://docs.cursor.com/context/rules)
+
+### Cline
+
+[Cline](https://cline.bot/) は `.clinerules` というファイルにルールを記述することができます。また、 `.clinerules/` ディレクトリ配下にMarkdownファイルをまとめることもできます。
+
+[Prompt Engineering Guide | Cline](https://docs.cline.bot/improving-your-prompting-skills/prompting)
+
+### Devin
+
+[Devin](https://devin.ai/) は特定のファイルを用意するというよりは、リポジトリ自体の内容を学習してくれるので、設定ファイルを整備する必要はなさそうです。
+
+[Knowledge - Devin Docs](https://docs.devin.ai/product-guides/knowledge)
+
+### Junie
+
+JetBrainsのIDE向けに最近リリースされた [Junie](https://www.jetbrains.com/junie/) は `.junie/guidelines.md` というファイルにルールを記述することができます。
+
+[IntelliJ IDEA Junie Playbook - JetBrains Guide](https://www.jetbrains.com/guide/ai/article/junie/intellij-idea/)
+
+## 具体的にこういう風にしたい
+
+最初に書いたように、特定の `.cursor` や `.clinerules` のようなものは用意せずに済むならそうしたいと思っています。そういう意味では以下の記事で書かれているような `.ai_guideline` ディレクトリをCursorとDevinに読み込んでもらうのはアリだと思います。
+
+https://blog.smartbank.co.jp/entry/2025/03/17/120000
+
+一方でこのドキュメントは人間も参照してもいいと思うし、GitHub Copilotでも有効活用したいです。[^2]
+[^2]: 最終的にはCursorのようなVSCodeのフォークベースのエディタより、CopilotのAgent Modeなどが進化して一番使いやすくなるのかなという期待があるためです。
+
+なので、 `README.md` からリンクする形で `code-guideline.md` や `code-review-guideline.md` など個別にMarkdownを用意します。
+
+```markdown title="README.md"
+# README
+
+詳細なガイドラインは以下を参照ください。
+
+- [Code Guideline](docs/code-guideline.md)
+- [Code Review Guideline](docs/code-review-guideline.md)
+```
+
+その上でVS Codeからは以下のように参照します。
+
+```json title=".vscode/settings.json"
+{
+    "github.copilot.chat.codeGeneration.instructions": [
+        {
+            "file": "docs/code-guideline.md",
+        }
+    ],
+    "github.copilot.chat.reviewSelection.instructions": [
+        {
+            "file": "docs/code-review-guideline.md",
+        }
+    ]
+    ...
+}
+```
+
+ポイントとしては `.github/copilot-instructions.md` はあえて使っていないです。他のAIやエディタに関して今後新たなエージェントが主流になったとしても同じ `docs/` を見てもらうように調整できるといいなという思いです。
