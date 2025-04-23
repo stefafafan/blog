@@ -1,8 +1,9 @@
+import type { Heading, Root } from 'mdast';
 import { visit } from 'unist-util-visit';
 
 export default function remarkHeadingPrefix() {
-    return (tree) => {
-        visit(tree, 'heading', (node) => {
+    return (tree: Root) => {
+        visit(tree, 'heading', (node: Heading) => {
             if (!node.children) return;
 
             // Generate the prefix based on the heading depth
