@@ -13,6 +13,7 @@ import rehypeKatex from 'rehype-katex'
 import rehypeExternalLinks from 'rehype-external-links'
 import rehypePrettyCode from 'rehype-pretty-code'
 import remarkEmoji from 'remark-emoji'
+import remarkHeadingPrefix from './src/lib/remark-heading-prefix'
 import remarkMath from 'remark-math'
 import remarkEmbedder from '@remark-embedder/core'
 import oembedTransformer from '@remark-embedder/transformer-oembed'
@@ -21,7 +22,7 @@ import sectionize from '@hbsnow/rehype-sectionize'
 
 import icon from 'astro-icon'
 
-const hatenaBlogOwnedDomains = ['blog.stenyan.jp']
+const hatenaBlogOwnedDomains = ['blog.stenyan.jp', 'blog.smartbank.co.jp']
 
 const hatenaBlogTransformer = {
   name: 'hatenablog',
@@ -103,6 +104,7 @@ export default defineConfig({
     remarkPlugins: [
       remarkMath,
       remarkEmoji,
+      remarkHeadingPrefix,
       // Using workaround as mentioned here: https://github.com/shikijs/twoslash/issues/147
       [
         remarkEmbedder.default,
