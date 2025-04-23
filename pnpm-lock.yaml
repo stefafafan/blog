@@ -68,6 +68,9 @@ importers:
       '@shikijs/transformers':
         specifier: 3.2.2
         version: 3.2.2
+      '@types/mdast':
+        specifier: ^4.0.4
+        version: 4.0.4
       '@types/react':
         specifier: 18.3.20
         version: 18.3.20
@@ -128,6 +131,9 @@ importers:
       typescript:
         specifier: 5.8.3
         version: 5.8.3
+      unist-util-visit:
+        specifier: ^5.0.0
+        version: 5.0.0
     devDependencies:
       '@tailwindcss/typography':
         specifier: 0.5.16
