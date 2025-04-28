@@ -35,7 +35,7 @@
     "@types/mdast": "^4.0.4",
     "@types/react": "18.3.20",
     "@types/react-dom": "18.3.6",
-    "astro": "5.7.5",
+    "astro": "5.7.8",
     "astro-icon": "1.1.5",
     "bootstrap-icons": "1.11.3",
     "class-variance-authority": "0.7.1",
