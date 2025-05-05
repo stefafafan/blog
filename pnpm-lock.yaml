@@ -84,8 +84,8 @@ importers:
         specifier: 1.1.5
         version: 1.1.5
       bootstrap-icons:
-        specifier: 1.11.4
-        version: 1.11.4
+        specifier: 1.12.1
+        version: 1.12.1
       class-variance-authority:
         specifier: 0.7.1
         version: 0.7.1
@@ -1410,8 +1410,8 @@ packages:
   boolbase@1.0.0:
     resolution: {integrity: sha512-JZOSA7Mo9sNGB8+UjSgzdLtokWAky1zbztM3WRLCbZ70/3cTANmQmOdR7y2g+J0e2WXywy1yS468tY+IruqEww==}
 
-  bootstrap-icons@1.11.4:
-    resolution: {integrity: sha512-P/3I5KsoS8tDvpBLolRBZnRkkKysUXM8Rm00nnazHY+eZ/o/smJZEDPbKI+d+XZLWdiaYDBB+ikUiCl7BogyKg==}
+  bootstrap-icons@1.12.1:
+    resolution: {integrity: sha512-ekwupjsteHQmgGV+haQ0nNMoSyKCbJj5ou+06vFzb9uR2/bwN9isNEgXBaQzcT+fLzhKS3OaBNpwz8XdZlIgYQ==}
 
   boxen@8.0.1:
     resolution: {integrity: sha512-F3PH5k5juxom4xktynS7MoFY+NUWH5LC4CnH11YB8NPew+HLpmBLCybSAEyb2F+4pRXhuhWqFesoQd6DAyc2hw==}
@@ -5024,7 +5024,7 @@ snapshots:
 
   boolbase@1.0.0: {}
 
-  bootstrap-icons@1.11.4: {}
+  bootstrap-icons@1.12.1: {}
 
   boxen@8.0.1:
     dependencies:
