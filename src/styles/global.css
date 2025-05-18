@@ -23,23 +23,23 @@
     --link: 142 76% 27%;  /* Darker green for links to ensure readability */
   }
   .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --primary: 142 70% 40%;  /* Brighter green for dark mode */
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 142 70% 30%;  /* Darker green for dark mode accents */
-    --accent-foreground: 0 0% 98%;
-    --additive: 142 70% 45%;  /* Brighter green for dark mode */
+    --background: 220 18% 13%;  /* Softer dark blue-gray instead of pure black */
+    --foreground: 220 10% 90%;  /* Slightly muted white for better eye comfort */
+    --primary: 142 65% 45%;  /* Brighter green for dark mode */
+    --primary-foreground: 220 10% 98%;
+    --secondary: 220 16% 22%;  /* Slightly blue-tinted secondary */
+    --secondary-foreground: 220 10% 90%;
+    --muted: 220 16% 22%;
+    --muted-foreground: 220 10% 70%;  /* More muted text for less eye strain */
+    --accent: 142 60% 35%;  /* Darker green for dark mode accents */
+    --accent-foreground: 220 10% 98%;
+    --additive: 142 65% 50%;  /* Brighter green for dark mode */
     --additive-foreground: 0 0% 9%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --ring: 142 70% 50%;  /* Brighter green ring for dark mode */
-    --link: 142 76% 45%;  /* Brighter green for links in dark mode */
+    --destructive: 0 62.8% 35%;
+    --destructive-foreground: 220 10% 98%;
+    --border: 220 16% 22%;
+    --ring: 142 65% 55%;  /* Brighter green ring for dark mode */
+    --link: 142 70% 55%;  /* Brighter green for links in dark mode */
   }
 
   *,
