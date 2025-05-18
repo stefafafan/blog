@@ -39,6 +39,7 @@ const config: Config = {
         },
         border: 'hsl(var(--border))',
         ring: 'hsl(var(--ring))',
+        link: 'hsl(var(--link))',
       },
       typography: {
         DEFAULT: {
@@ -66,7 +67,15 @@ const config: Config = {
             },
             li: {
               'font-size': '1.1rem',
-            }
+            },
+            a: {
+              color: 'hsl(var(--link))',
+              '&:hover': {
+                color: 'hsl(var(--primary))',
+              },
+              textDecoration: 'underline',
+              textUnderlineOffset: '3px',
+            },
           }
         }
       },
