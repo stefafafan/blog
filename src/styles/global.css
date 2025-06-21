@@ -171,4 +171,14 @@
       margin: auto;
     }
   }
+
+  /* Dark mode Twitter button styling */
+  .dark {
+    /* Apply filters to Twitter iframe to improve dark mode appearance */
+    iframe.twitter-share-button,
+    iframe.dark-mode-twitter {
+      /* Invert colors and adjust brightness */
+      filter: invert(0.9) hue-rotate(180deg) brightness(1.1) contrast(0.9);
+    }
+  }
 }
