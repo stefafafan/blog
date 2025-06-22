@@ -2,7 +2,8 @@ import { rehypeHeadingIds } from '@astrojs/markdown-remark'
 import mdx from '@astrojs/mdx'
 import react from '@astrojs/react'
 import sitemap from '@astrojs/sitemap'
-import tailwind from '@astrojs/tailwind'
+import tailwindcss from '@tailwindcss/vite'
+
 import { transformerCopyButton } from '@rehype-pretty/transformers'
 import {
   transformerMetaHighlight,
@@ -59,15 +60,10 @@ const cache = new Cache.default()
 // https://astro.build/config
 export default defineConfig({
   site: 'https://stenyan.dev',
-  integrations: [
-    tailwind({
-      applyBaseStyles: false,
-    }),
-    sitemap(),
-    mdx(),
-    react(),
-    icon(),
-  ],
+  vite: {
+    plugins: [tailwindcss()],
+  },
+  integrations: [sitemap(), mdx(), react(), icon()],
   markdown: {
     syntaxHighlight: false,
     rehypePlugins: [

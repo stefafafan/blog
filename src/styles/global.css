@@ -1,6 +1,34 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@config '../../tailwind.config.ts';
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+@utility dark {
+  /* Dark mode Twitter button styling */
+  /* Apply filters to Twitter iframe to improve dark mode appearance */
+  iframe.twitter-share-button,
+  iframe.dark-mode-twitter {
+    /* Invert colors and adjust brightness */
+    filter: invert(0.9) hue-rotate(180deg) brightness(1.1) contrast(0.9);
+  }
+}
 
 @layer base {
   :root {
@@ -63,13 +91,13 @@
 
   .disable-transitions,
   .disable-transitions * {
-    @apply !transition-none;
+    @apply transition-none!;
   }
 }
 
 @layer components {
   article {
-    @apply prose-headings:scroll-mt-20 prose-headings:break-words first:prose-headings:mt-0 prose-p:break-words prose-a:!break-words prose-a:!decoration-muted-foreground prose-a:underline-offset-[3px] prose-a:transition-colors hover:prose-a:!decoration-foreground prose-pre:!px-0 prose-img:mx-auto;
+    @apply prose-headings:scroll-mt-20 prose-headings:break-words prose-headings:first:mt-0 prose-p:break-words prose-a:break-words! prose-a:decoration-muted-foreground! prose-a:underline-offset-[3px] prose-a:transition-colors prose-a:hover:decoration-foreground! prose-pre:px-0! prose-img:mx-auto;
 
     .katex-display {
       @apply overflow-x-auto overflow-y-hidden py-4;
@@ -85,15 +113,11 @@
       span {
         color: var(--shiki-light);
       }
-
-      .dark & span {
-        color: var(--shiki-dark);
-      }
     }
 
     /* Inline code */
     :not(pre) > code {
-      @apply relative rounded bg-muted/50 px-[0.3rem] py-[0.2rem] font-mono text-sm font-medium;
+      @apply bg-muted/50 relative rounded-sm px-[0.3rem] py-[0.2rem] font-mono text-sm font-medium;
     }
 
     /* Code blocks */
@@ -102,7 +126,7 @@
 
       /* Code block titles */
       [data-rehype-pretty-code-title] {
-        @apply break-words rounded-t-xl border-x border-t px-4 py-2 text-sm font-medium text-foreground;
+        @apply text-foreground rounded-t-xl border-x border-t px-4 py-2 text-sm font-medium break-words;
 
         /* Remove top margin from code block if a title is present */
         & + pre {
@@ -112,7 +136,7 @@
 
       /* Code block styles */
       pre {
-        @apply static overflow-auto rounded-xl border bg-secondary/20 py-4 text-sm leading-loose;
+        @apply bg-secondary/20 static overflow-auto rounded-xl border py-4 text-sm leading-loose;
 
         /* Code block content */
         > code {
@@ -124,7 +148,7 @@
             > [data-line]::before {
               counter-increment: line;
               content: counter(line);
-              @apply mr-4 inline-block w-4 text-right text-muted-foreground;
+              @apply text-muted-foreground mr-4 inline-block w-4 text-right;
             }
           }
 
@@ -155,7 +179,7 @@
 
           /* Copy button */
           > button:has(> span) {
-            @apply right-0.5 top-[3px] m-0 size-8 rounded-md bg-background p-1 backdrop-blur-none transition-all;
+            @apply bg-background top-[3px] right-0.5 m-0 size-8 rounded-md p-1 backdrop-blur-none transition-all;
           }
         }
       }
@@ -169,16 +193,6 @@
       max-width: 600px;
       display: block;
       margin: auto;
-    }
-  }
-
-  /* Dark mode Twitter button styling */
-  .dark {
-    /* Apply filters to Twitter iframe to improve dark mode appearance */
-    iframe.twitter-share-button,
-    iframe.dark-mode-twitter {
-      /* Invert colors and adjust brightness */
-      filter: invert(0.9) hue-rotate(180deg) brightness(1.1) contrast(0.9);
     }
   }
 }
