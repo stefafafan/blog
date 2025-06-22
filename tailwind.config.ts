@@ -76,8 +76,8 @@ const config: Config = {
               textDecoration: 'underline',
               textUnderlineOffset: '3px',
             },
-          }
-        }
+          },
+        },
       },
     },
   },

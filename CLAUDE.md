@@ -24,6 +24,7 @@ pnpm astro        # Run any Astro CLI command
 ## Architecture Overview
 
 ### Technology Stack
+
 - **Framework**: Astro 5.x with MDX support
 - **UI**: Hybrid approach - Astro components for static content, React for interactive features
 - **Styling**: Tailwind CSS v3 with custom design tokens
@@ -63,8 +64,9 @@ src/
 ### Content Management
 
 Blog posts use Astro Content Collections with this schema:
+
 - `title`: string (max 60 chars for Open Graph)
-- `description`: string (max 155 chars for Open Graph)  
+- `description`: string (max 155 chars for Open Graph)
 - `date`: Date object
 - `image`: optional string
 - `tags`: optional string array
@@ -82,12 +84,14 @@ Posts are stored in `src/content/posts/YYYY/MM/DD/post-slug.mdx`
 ### Important Configurations
 
 **astro.config.mjs**: Contains all Astro integrations and markdown processing plugins
+
 - Syntax highlighting with `rehype-pretty-code`
 - Math support with KaTeX
 - External link handling
 - oEmbed support for Twitter/YouTube/Hatena
 
 **tailwind.config.ts**: Custom theme extensions and plugins
+
 - Dark mode with selector strategy
 - Typography plugin for prose content
 - Custom color system using CSS variables

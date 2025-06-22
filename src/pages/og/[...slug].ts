@@ -25,7 +25,12 @@ function addLineBreaks(text: string, maxLength: number = 25): string {
   while ((match = hashtagRegex.exec(text)) !== null) {
     // Add text before hashtag
     if (match.index > lastIndex) {
-      parts.push(...text.slice(lastIndex, match.index).split(/(\s+|[、。！？])/g).filter(Boolean))
+      parts.push(
+        ...text
+          .slice(lastIndex, match.index)
+          .split(/(\s+|[、。！？])/g)
+          .filter(Boolean),
+      )
     }
     // Add hashtag as a single unit
     parts.push(match[0])
@@ -34,7 +39,12 @@ function addLineBreaks(text: string, maxLength: number = 25): string {
 
   // Add remaining text
   if (lastIndex < text.length) {
-    parts.push(...text.slice(lastIndex).split(/(\s+|[、。！？])/g).filter(Boolean))
+    parts.push(
+      ...text
+        .slice(lastIndex)
+        .split(/(\s+|[、。！？])/g)
+        .filter(Boolean),
+    )
   }
 
   // Now build lines with proper length constraints
@@ -117,7 +127,8 @@ export const GET: APIRoute = async ({ props, params }) => {
                 color: '#000000',
                 textAlign: 'left',
                 lineHeight: 1.1,
-                fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                fontFamily:
+                  'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
                 maxWidth: 1080,
                 whiteSpace: 'pre-line',
                 flex: 1,
@@ -150,21 +161,25 @@ export const GET: APIRoute = async ({ props, params }) => {
                       flexWrap: 'wrap',
                       gap: 12,
                     },
-                    children: post.data.tags && post.data.tags.length > 0 ? post.data.tags.map((tag: string) => ({
-                      type: 'div',
-                      props: {
-                        style: {
-                          fontSize: 24,
-                          fontWeight: 600,
-                          color: '#15803d',
-                          fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-                          border: '3px solid #15803d',
-                          borderRadius: 8,
-                          padding: '12px 20px',
-                        },
-                        children: `#${tag}`,
-                      },
-                    })) : [],
+                    children:
+                      post.data.tags && post.data.tags.length > 0
+                        ? post.data.tags.map((tag: string) => ({
+                            type: 'div',
+                            props: {
+                              style: {
+                                fontSize: 24,
+                                fontWeight: 600,
+                                color: '#15803d',
+                                fontFamily:
+                                  'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                                border: '3px solid #15803d',
+                                borderRadius: 8,
+                                padding: '12px 20px',
+                              },
+                              children: `#${tag}`,
+                            },
+                          }))
+                        : [],
                   },
                 },
                 // Blog title
@@ -175,7 +190,8 @@ export const GET: APIRoute = async ({ props, params }) => {
                       fontSize: 32,
                       fontWeight: 700,
                       color: '#15803d',
-                      fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                      fontFamily:
+                        'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
                       textDecoration: 'underline',
                       textDecorationThickness: '2px',
                       textUnderlineOffset: '3px',
@@ -192,6 +208,6 @@ export const GET: APIRoute = async ({ props, params }) => {
     {
       width: 1200,
       height: 630,
-    }
+    },
   )
 }
