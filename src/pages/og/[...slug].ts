@@ -13,7 +13,7 @@ export async function getStaticPaths() {
 export const GET: APIRoute = async ({ props, params }) => {
   // In development mode, props might be undefined, so we fetch the post directly
   let post = props ? (props as { post: any }).post : null
-  
+
   if (!post && params?.slug) {
     // Remove .png extension if present for development mode
     let slug = params.slug as string
@@ -22,7 +22,7 @@ export const GET: APIRoute = async ({ props, params }) => {
     }
     post = await getEntry('posts', slug)
   }
-  
+
   if (!post) {
     return new Response('Post not found', { status: 404 })
   }
