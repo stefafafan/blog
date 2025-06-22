@@ -18,7 +18,6 @@ const tags = [...tagCounts.keys()].sort((a, b) => {
   const countDiff = tagCounts.get(b)! - tagCounts.get(a)!
   return countDiff !== 0 ? countDiff : a.localeCompare(b)
 })
-
 ---
 
 <Layout title="Tags" description="A list of all tags used in blog posts">
@@ -34,9 +33,9 @@ const tags = [...tagCounts.keys()].sort((a, b) => {
             >
               <Icon name="lucide:hash" class="size-3 -translate-x-0.5" />
               {tag}
-              <span class="text-muted-foreground ml-1.5">
-              ({tagCounts.get(tag)})
-            </span>
+              <span class="ml-1.5 text-muted-foreground">
+                ({tagCounts.get(tag)})
+              </span>
             </Link>
           ))
         }
