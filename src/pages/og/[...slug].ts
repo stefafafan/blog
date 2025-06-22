@@ -5,7 +5,7 @@ import type { APIRoute } from 'astro'
 export async function getStaticPaths() {
   const posts = await getCollection('posts')
   return posts.map((post) => ({
-    params: { slug: post.id },
+    params: { slug: `${post.id}.png` },
     props: { post },
   }))
 }
