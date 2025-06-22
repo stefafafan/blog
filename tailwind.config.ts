@@ -2,7 +2,7 @@ import type { Config } from 'tailwindcss'
 import defaultTheme from 'tailwindcss/defaultTheme'
 
 const config: Config = {
-  darkMode: ['selector'],
+  darkMode: 'selector',
   content: ['./src/**/*.{astro,md,mdx,ts,tsx}'],
   theme: {
     extend: {
