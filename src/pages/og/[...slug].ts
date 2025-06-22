@@ -87,9 +87,8 @@ export const GET: APIRoute = async ({ props, params }) => {
     return new Response('Post not found', { status: 404 })
   }
 
-  // Add line breaks to title and description for better display
+  // Add line breaks to title for better display
   const formattedTitle = addLineBreaks(post.data.title, 30)
-  const formattedDescription = addLineBreaks(post.data.description, 60)
 
   return new ImageResponse(
     {
@@ -100,45 +99,88 @@ export const GET: APIRoute = async ({ props, params }) => {
           width: '100%',
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
+          justifyContent: 'space-between',
           backgroundColor: '#18181b',
           backgroundImage: 'linear-gradient(135deg, #18181b 0%, #27272a 100%)',
           padding: 60,
-          gap: 20,
         },
         children: [
+          // Main post title (left-aligned)
           {
             type: 'div',
             props: {
               style: {
-                fontSize: 44,
+                fontSize: 64,
                 fontWeight: 700,
                 color: '#ffffff',
-                textAlign: 'center',
-                lineHeight: 1.3,
+                textAlign: 'left',
+                lineHeight: 1.2,
                 fontFamily: 'system-ui, sans-serif',
                 maxWidth: 1080,
                 whiteSpace: 'pre-line',
+                flex: 1,
+                display: 'flex',
+                alignItems: 'flex-start',
+                paddingTop: 80,
               },
               children: formattedTitle,
             },
           },
+          // Bottom section with tags and blog title
           {
             type: 'div',
             props: {
               style: {
-                fontSize: 20,
-                fontWeight: 400,
-                color: '#d4d4d8',
-                textAlign: 'center',
-                lineHeight: 1.5,
-                fontFamily: 'system-ui, sans-serif',
-                marginTop: 20,
-                maxWidth: 1080,
-                whiteSpace: 'pre-line',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 24,
+                alignItems: 'flex-start',
+                marginTop: -60,
               },
-              children: formattedDescription,
+              children: [
+                // Tags
+                {
+                  type: 'div',
+                  props: {
+                    style: {
+                      display: 'flex',
+                      flexWrap: 'wrap',
+                      gap: 12,
+                    },
+                    children: post.data.tags && post.data.tags.length > 0 ? post.data.tags.map((tag: string) => ({
+                      type: 'div',
+                      props: {
+                        style: {
+                          fontSize: 22,
+                          fontWeight: 500,
+                          color: '#16a34a',
+                          fontFamily: 'system-ui, sans-serif',
+                          border: '2px solid #16a34a',
+                          borderRadius: 8,
+                          padding: '10px 18px',
+                        },
+                        children: `#${tag}`,
+                      },
+                    })) : [],
+                  },
+                },
+                // Blog title
+                {
+                  type: 'div',
+                  props: {
+                    style: {
+                      fontSize: 30,
+                      fontWeight: 600,
+                      color: '#16a34a',
+                      fontFamily: 'system-ui, sans-serif',
+                      textDecoration: 'underline',
+                      textDecorationThickness: '1px',
+                      textUnderlineOffset: '2px',
+                    },
+                    children: 'stenyan[.]dev',
+                  },
+                },
+              ],
             },
           },
         ],
