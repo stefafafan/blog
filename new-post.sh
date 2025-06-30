@@ -49,3 +49,4 @@ echo "  - Add a title (max 60 chars for Open Graph)"
 echo "  - Add a description (max 155 chars for Open Graph)"
 echo "  - Add relevant tags"
 echo "  - Set draft: false when ready to publish"
+
