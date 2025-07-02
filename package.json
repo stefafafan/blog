@@ -36,7 +36,7 @@
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "@vercel/og": "^0.6.8",
-    "astro": "5.10.1",
+    "astro": "5.10.2",
     "astro-icon": "1.1.5",
     "bootstrap-icons": "1.13.1",
     "class-variance-authority": "0.7.1",
