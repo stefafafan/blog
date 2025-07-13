@@ -35,7 +35,7 @@
     "@types/mdast": "^4.0.4",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
-    "@vercel/og": "^0.6.8",
+    "@vercel/og": "^0.7.0",
     "astro": "5.11.0",
     "astro-icon": "1.1.5",
     "bootstrap-icons": "1.13.1",
