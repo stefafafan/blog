@@ -28,6 +28,13 @@
     /* Invert colors and adjust brightness */
     filter: invert(0.9) hue-rotate(180deg) brightness(1.1) contrast(0.9);
   }
+
+  /* Dark mode Hatena Star iframe styling */
+  /* Apply filters to Hatena Star iframe to improve dark mode appearance */
+  iframe[src*='hatena.ne.jp'] {
+    /* Invert colors and adjust brightness for dark mode compatibility */
+    filter: invert(0.9) hue-rotate(180deg) brightness(1.1) contrast(0.9);
+  }
 }
 
 @layer base {
