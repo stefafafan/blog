@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a personal blog website (stenyan.dev) built with Astro framework. It's a static site generator with React islands for interactive components, using TypeScript throughout and Tailwind CSS for styling.
+This is a personal blog website (stenyan.dev) built with Astro framework. It's a static site generator with React islands for interactive components, using TypeScript throughout and Tailwind CSS for styling. The theme is based on [jktrn/astro-erudite](https://github.com/jktrn/astro-erudite).
 
 ## Essential Commands
 
@@ -27,7 +27,7 @@ pnpm astro        # Run any Astro CLI command
 
 - **Framework**: Astro 5.x with MDX support
 - **UI**: Hybrid approach - Astro components for static content, React for interactive features
-- **Styling**: Tailwind CSS v3 with custom design tokens
+- **Styling**: Tailwind CSS v4 with custom design tokens
 - **Language**: TypeScript with strict mode
 - **Content**: Markdown/MDX files managed by Astro Content Collections
 
@@ -85,16 +85,24 @@ Posts are stored in `src/content/posts/YYYY/MM/DD/post-slug.mdx`
 
 **astro.config.mjs**: Contains all Astro integrations and markdown processing plugins
 
-- Syntax highlighting with `rehype-pretty-code`
+- Syntax highlighting with `rehype-pretty-code` (Material themes)
 - Math support with KaTeX
-- External link handling
+- External link handling with security attributes
 - oEmbed support for Twitter/YouTube/Hatena
+- Copy button for code blocks
+- Diff notation and meta highlighting support
 
 **tailwind.config.ts**: Custom theme extensions and plugins
 
 - Dark mode with selector strategy
 - Typography plugin for prose content
 - Custom color system using CSS variables
+
+**prettier.config.mjs**: Code formatting configuration
+
+- No semicolons
+- Single quotes
+- Astro, Tailwind, and import organization plugins
 
 ### Japanese Language Considerations
 
@@ -110,3 +118,5 @@ Posts are stored in `src/content/posts/YYYY/MM/DD/post-slug.mdx`
 - Renovate bot handles dependency updates with automerge for minor versions
 - Dev server runs on port 1234 (not the default 4321)
 - The Astro dev toolbar is disabled
+- Host mode enabled for network access during development
+- Git branch convention: `main` is the default branch for PRs
