@@ -1,0 +1,158 @@
+---
+title: '将来を見据えて管理画面のフロントエンドをガッと改善した'
+description: '管理画面のセキュリティ、開発効率、コード品質の改善に取り組んだ話です。'
+date: 2025-08-09
+tags: ['tech', 'frontend', 'ci', 'security']
+draft: false
+---
+
+こんにちは、株式会社スマートバンクでサーバーサイドエンジニアをやっています、すてにゃん (id:stefafan:detail) です。今回は社内で活用している管理画面に対して実施した様々な技術的な改善を紹介していきます。
+
+## 背景
+
+弊社ではお問い合わせ対応や調査をするために社内向けに管理画面を用意しています。この管理画面は以下のスライドにあるように、ユーザー向けの機能とはリポジトリをわけて運用しています。
+
+<iframe class="speakerdeck-iframe" style="border: 0px; background: rgba(0, 0, 0, 0.1) padding-box; margin: 0px; padding: 0px; border-radius: 6px; box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 40px; width: 100%; height: auto; aspect-ratio: 560 / 315;" frameborder="0" src="https://speakerdeck.com/player/f808821176c54395bee9104425cb4d96?slide=54" title="管理機能アーキテクチャパターンの考察と実践 / Learn Architecture through Admin" allowfullscreen="true" data-ratio="1.7777777777777777"></iframe>
+
+この構成を取ることで、バックエンドサーバー (Rails) はあくまでもREST APIを提供するもので、モバイルアプリや管理画面 (フロントエンド) はそのAPIを叩くというシンプルな作りにできており、認知負荷を下げることに貢献していると感じています。
+
+一方でユーザーが直接手に触る部分はモバイルアプリということもあり、管理画面は意識してメンテナンスしていかないとじわじわと廃れてしまうんじゃないかと私は個人的に危惧するようになっています。特に弊社はフロントエンド専任のエンジニアやフロントエンドエキスパートのようなロールは定めていないので、Reactベースの管理画面をどこまで面倒を見切るのかというのがポイントになるのかなと思いました。
+
+カスタマーサポートの業務改善を多くやっているチームに在籍している私は管理画面を触る機会が多いので、チームの一員としてオーナーシップをもっていくつかの改善に取り組んでいきました。今回はその取り組みの内容を紹介します。
+
+## 改善サイクルの高速化
+
+最初に取り組んだのは改善サイクルの高速化です。具体的には、CIの実行が一回あたり12~13分かかっている状況だったのを、4分前後で終わるように高速化しました。やっていることはシンプルなりにもとても効果があってよかったです。
+
+元々の構成としてはGitHub Actions上でJestのテストを以下のように実行していました。
+
+```yaml
+- name: Get number of CPU cores
+        id: cpu-cores
+        uses: SimenB/github-actions-cpu-cores@v2
+
+- name: Run the tests
+  run: yarn test --maxWorkers ${{ steps.cpu-cores.outputs.count }}
+```
+
+一見すると [`maxWorkers`](https://jestjs.io/docs/cli#--maxworkersnumstring) というオプションを利用していて、CPUコア数に応じて上手く並列実行されているように見えますが、GitHub Actionsのデフォルトのランナーは2コアなので、2並列でしか動いていませんでした。
+
+Job数を増やして並列実行数を増やすことにしました。具体的には、以下のように [`--shard`](https://jestjs.io/docs/cli#--shard) オプションを利用するようにしています。
+
+```yaml
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test-shards:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        shard: [1/4, 2/4, 3/4, 4/4]
+
+    steps:
+      # 中略
+      - name: Get number of CPU cores
+        id: cpu-cores
+        uses: SimenB/github-actions-cpu-cores@v2
+
+      - name: Run the tests (shard ${{ matrix.shard }})
+        run: yarn test --maxWorkers ${{ steps.cpu-cores.outputs.count }} --shard=${{ matrix.shard }}
+```
+
+これによりテストの実行時間は13分から4分台後半くらいまで短縮されました。[^1]
+
+[^1]: 並列数を上げるとその分GitHub Actionsの利用料金が嵩む可能性があるため、ちょうど良い分割数を見つけることが大事です。
+
+テストの高速化についてはJest公式ドキュメントの記載やUzabaseさんの記事などを参考にさせていただきました。
+- [Tests are Extremely Slow on Docker and/or Continuous Integration (CI) server.](https://jestjs.io/docs/troubleshooting#tests-are-extremely-slow-on-docker-andor-continuous-integration-ci-server)
+- [Github Actions のテスト実行時間を速くするためにやったこと - Uzabase for Engineers](https://tech.uzabase.com/entry/2022/12/18/143642)
+
+この他にもNode.jsのバージョンアップやパッケージマネージャーのバージョンアップなどを経て、現在は4分台前半までになりました。
+
+## 開発者体験の向上
+
+次に様々な依存ライブラリを見直すことで開発者体験の向上を図りました。例えば以下のようなことを実施しました。
+
+- パッケージマネージャー yarn を v3 から v4 へアップグレード
+- メンバーがESLint→Biome移行をしてくれたので、その後Biome自体もv2へアップグレード
+- Viteもv7へアップグレード
+- `node-canvas` を `@napi-rs/canvas` へ移行
+  - 参考になりました: [ネイティブモジュールに依存しない node-canvas 代替ライブラリを使う - mizdra's blog](https://www.mizdra.net/entry/2023/01/22/232956)
+
+ライブラリのアップデート対応以外にも MUI 向けの MCP サーバーの導入なども試したりしました。実際にどれほど効果があるか測れていませんが、Agentic Codingを捗らせることを意識してやれることはやろうとしています。
+
+https://mui.com/material-ui/getting-started/mcp/
+
+以前よりDependabotが一部のパッチを自動でマージしてくれる設定が入っていたりしたので、ものすごく古びているということはありませんでしたが、実際に意思決定をしてアクティブにメジャーバージョンを上げる活動などがあまりやれていなかったようだったので、やれる範囲で意思を持って進めることを意識しました。結果として即座に何か凄く良い結果があったわけでもありませんが、この後紹介する「将来を見据えたコード品質の担保」に繋がると思っています。
+
+## 将来を見据えたコード品質の担保
+
+仮に今回やる気になって色々と改善したとしても、将来に渡ってそれが継続されるとは限らないので、コード品質をどうにかして担保する必要があります。
+
+### Linterルールの有効化
+
+わかりやすいところでまずBiomeの様々なルールを順番に有効にしていく変更をしました（今もしています）。元々少し緩めに運用されていたのと、ESLint→Biome移行のタイミングでも移行することがメインのゴールとなっていたので、しっかりと有効化していこうと思って実施しました。例えば以下のルールは有効化しています。
+
+- [noExplicitAny](https://biomejs.dev/linter/rules/no-explicit-any/): `any` 型の禁止
+- [useAsConstAssertion](https://biomejs.dev/linter/rules/use-as-const-assertion/): `as const` 推奨
+- [noInferrableTypes](https://biomejs.dev/linter/rules/no-inferrable-types/): 推論できる型を明示的に書かない
+
+Linterはとても便利で、既存の実装を全部把握していなくてもルールを有効化することで違反しているコードを一覧することができます。今回どうやら `any` 型が存在することがわかって収穫でしたし、今後新規で使われないように制御することができました。
+
+### TypeScriptの設定を厳格化
+
+`tsconfig.json` の設定を改めて見直すという活動も実施しました。コンパイルエラーなくそのまま有効化できた設定は一気に入れましたが、以下の設定についてはいくつかエラーが発生しているため、ひとつずつ確認して対応している最中です。
+
+- [noUncheckedIndexedAccess](https://www.typescriptlang.org/tsconfig/#noUncheckedIndexedAccess): インデックスアクセスをより安全に実施できるようにするための設定
+  - 参考になりました: [おまえら禁じられたインデックスアクセスを平気で使ってんじゃねえか！わかってんのか？『ランタイムエラー』が生まれたのは人間がコンパイラオプションに甘えたせいだろうがよ！](https://azukiazusa.dev/blog/typescript-no-unchecked-indexed-access/)
+- [exactOptionalPropertyTypes](https://www.typescriptlang.org/tsconfig/#exactOptionalPropertyTypes): オプショナルなプロパティに対してより厳格にチェックするようになる設定
+  - 参考になりました: [exactOptionalPropertyTypes によせて - Object.create(null)](https://susisu.hatenablog.com/entry/2021/07/13/000239)
+
+せっかくTypeScriptを利用しているので、堅牢にできるところはやっていきたいし、CIで自動的に検知できるという点がとても安心できて嬉しいと感じています。
+
+### パッケージのバージョン指定やアップデート周りの調整
+
+`package.json` に指定されているパッケージは元々全て `^` をprefixとしていました。このprefixがついていると、最も左端のゼロでない数値に対して固定しているだけで、ゆるい設定となっているため、完全に固定することにしました。
+
+https://zenn.dev/nekoya/articles/c6057fbb896391
+
+現状 `yarn` を利用しているので、設定ファイルにも以下の設定を追記しました。
+
+```yaml
+defaultSemverRangePrefix: ""
+```
+
+また、 `yarn install` 時に出力されるログを注視しているとバージョンの不一致などが発生していることに気づいたので、簡単に対処できるものは自分で修正したり、ライブラリ作者へ連絡が必要な `ra-language-japanese` に関しては issue 上で報告し、実際に対応いただいたりもしました！OSSに貢献できてこれは少し嬉しかったです。
+
+https://github.com/bicstone/ra-language-japanese/issues/379
+
+他にも[DependabotのCooldown設定](https://docs.github.com/en/code-security/dependabot/working-with-dependabot/dependabot-options-reference#cooldown-)を入れて、よからぬアップデートが自動マージされるリスクを下げたり、[suzuki-shunsuke/pinact](github.com/suzuki-shunsuke/pinact)を利用してGitHub Actionsのサードパーティアクションをコミットハッシュで固定するといったことも実施しました。
+
+地道な改善ですがこれらの変更はきっと将来に渡って安心して開発・運用に臨めるシステムを作るのに役に立っていると思います。
+
+## 今後の課題と展望
+
+今回の活動によって一定の成果は得られたと思いますが、まだ道半ばなのと、他にもやりたい改善はあります。特に以下の2点が個人的にはホットです。
+
+- 管理画面へ手を入れるコストを減らしたい
+- ユーザビリティを上げたい
+
+現状、新しい画面を足す際にはまずRailsのバックエンドサーバに新しいREST APIのエンドポイントを追加し、その後管理画面にそれに対応した型定義を手で追加した上で、Reactを書いて画面を作っていくという流れとなっています。しかし、APIエンドポイントを今後も足し続けるのが正義なのか（それともGraphQLへ移行していくべきか）という論点や、型定義の手書きもしたくないとか、同じような画面をしょっちゅう作っているならもう少し効率化できそうとも思ったりしています。
+
+では少ない手順で全てをほぼ自動化できればいいかというと、二点目のユーザビリティに繋がっていきます。そもそもデータベースのテーブル設計をほぼそのまま管理画面の画面に落とし込んだものが果たして使いやすいのか？というのを最近思うようになってきています。管理者、特にカスタマーサポートの方の業務フローをベースとして、どういったユースケースが適切なのかをモデリングした上でそれに合った画面作りができると一番いいのではないかと思ったりしています。
+
+## 終わりに
+
+今回お話させていただいた内容は実は[CRE Camp #1](https://cre-camp.connpass.com/event/357306/) でも登壇した時の以下の内容を、より技術面で深掘りしたようなものとなりました。
+
+<iframe class="speakerdeck-iframe" style="border: 0px; background: rgba(0, 0, 0, 0.1) padding-box; margin: 0px; padding: 0px; border-radius: 6px; box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 40px; width: 100%; height: auto; aspect-ratio: 560 / 315;" frameborder="0" src="https://speakerdeck.com/player/f9e932f8745944478762a80234da5af5" title="急成長を支える基盤作り〜地道な改善からコツコツと〜 #cre_meetup" allowfullscreen="true" data-ratio="1.7777777777777777"></iframe>
+
+https://blog.smartbank.co.jp/entry/2025/07/10/090000
+
+CRE Campは第2回の開催も迫っているので、管理画面に限らず顧客との向き合い方などに関して関心があればぜひこちらもチェックしてみてください。
+
+https://cre-camp.connpass.com/event/363674/
+
+そしてSmartBankでは私のように「サーバーサイドエンジニア」として入社しつつもフロントエンドのコードベースをガッと改善したりするようなオーナーシップを発揮するメンバーを募集しております。いつでもカジュアル面談お待ちしております。
