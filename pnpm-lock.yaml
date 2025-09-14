@@ -30,8 +30,8 @@ importers:
         specifier: 1.0.7
         version: 1.0.7
       '@iconify-json/lucide':
-        specifier: 1.2.67
-        version: 1.2.67
+        specifier: 1.2.68
+        version: 1.2.68
       '@radix-ui/react-avatar':
         specifier: 1.1.10
         version: 1.1.10(@types/react-dom@19.1.9(@types/react@19.1.12))(@types/react@19.1.12)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
@@ -524,8 +524,8 @@ packages:
     resolution: {integrity: sha512-twbVxCFf4YwgTm6FIdGtHfJ14vvIHedk2fqZTpE3X6+vszEeZlMTy7tOyI9KaP/6S2DN2Jnk7zZGtZANTD+vEg==}
     engines: {node: '>=16.0.0'}
 
-  '@iconify-json/lucide@1.2.67':
-    resolution: {integrity: sha512-YVLDYbFbX0cPxl6p9l55igm+UljlOCj0CQKwN3BoEbD3KOmDMtQumw2TGuWAE9JWURL5U6v/1oFXyKgEZDGSkQ==}
+  '@iconify-json/lucide@1.2.68':
+    resolution: {integrity: sha512-lR5xNJdn2CT0iR7lM25G4SewBO4G2hbr3fTWOc3AE9BspflEcneh02E3l9TBaCU/JOHozTJevWLrxBGypD7Tng==}
 
   '@iconify/tools@4.1.1':
     resolution: {integrity: sha512-Hybu/HGhv6T8nLQhiG9rKx+ekF7NNpPOEQAy7JRSKht3s3dcFSsPccYzk24Znc9MTxrR6Gak3cg6CPP5dyvS2Q==}
@@ -4118,7 +4118,7 @@ snapshots:
       hast-util-heading-rank: 2.1.1
       rehype: 12.0.1
 
-  '@iconify-json/lucide@1.2.67':
+  '@iconify-json/lucide@1.2.68':
     dependencies:
       '@iconify/types': 2.0.0
 
