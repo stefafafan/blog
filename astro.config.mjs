@@ -2,28 +2,31 @@ import { rehypeHeadingIds } from '@astrojs/markdown-remark'
 import mdx from '@astrojs/mdx'
 import react from '@astrojs/react'
 import sitemap from '@astrojs/sitemap'
-import tailwindcss from '@tailwindcss/vite'
+import sectionize from '@hbsnow/rehype-sectionize'
 
 import { transformerCopyButton } from '@rehype-pretty/transformers'
+import Cache from '@remark-embedder/cache'
+import remarkEmbedder from '@remark-embedder/core'
+import oembedTransformer from '@remark-embedder/transformer-oembed'
 import {
   transformerMetaHighlight,
   transformerNotationDiff,
 } from '@shikijs/transformers'
+import tailwindcss from '@tailwindcss/vite'
 import { defineConfig } from 'astro/config'
-import rehypeKatex from 'rehype-katex'
+import icon from 'astro-icon'
 import rehypeExternalLinks from 'rehype-external-links'
+import rehypeKatex from 'rehype-katex'
 import rehypePrettyCode from 'rehype-pretty-code'
 import remarkEmoji from 'remark-emoji'
-import remarkHeadingPrefix from './src/lib/remark-heading-prefix'
 import remarkMath from 'remark-math'
-import remarkEmbedder from '@remark-embedder/core'
-import oembedTransformer from '@remark-embedder/transformer-oembed'
-import Cache from '@remark-embedder/cache'
-import sectionize from '@hbsnow/rehype-sectionize'
+import remarkHeadingPrefix from './src/lib/remark-heading-prefix'
 
-import icon from 'astro-icon'
-
-const hatenaBlogOwnedDomains = ['blog.stenyan.jp', 'blog.smartbank.co.jp']
+const hatenaBlogOwnedDomains = [
+  'blog.stenyan.jp',
+  'blog.smartbank.co.jp',
+  'blog.shibayu36.org',
+]
 
 const hatenaBlogTransformer = {
   name: 'hatenablog',
