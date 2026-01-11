@@ -30,7 +30,7 @@
     "@remark-embedder/cache": "2.1.0",
     "@remark-embedder/core": "3.0.3",
     "@remark-embedder/transformer-oembed": "5.0.1",
-    "@shikijs/transformers": "3.20.0",
+    "@shikijs/transformers": "3.21.0",
     "@tailwindcss/vite": "^4.1.10",
     "@types/mdast": "^4.0.4",
     "@types/react": "^19.0.0",
